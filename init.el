@@ -78,12 +78,13 @@
        gist            ; interacting with github gists
        imenu           ; an imenu sidebar and searchable code index
        impatient-mode  ; show off code over HTTP
-       ;macos           ; MacOS-specific commands
+      ;macos           ; MacOS-specific commands
        make            ; run make tasks from Emacs
        magit
        neotree         ; a project drawer, like NERDTree for vim
+       password-store  ; password manager for nerds
        (password-store ; password manager for nerds
-        +auth)
+        +auth)         ; use password-store as auth-source backend
        pdf             ; pdf enhancements
        rotate-text     ; cycle region at point between text candidates
        term            ; terminals in Emacs
