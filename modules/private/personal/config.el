@@ -18,6 +18,10 @@
 ;; TODO replace w/ real jest package
 (load! +jest)
 
+;; coverlay overlay colors
+(setq coverlay:untested-line-background-color (doom-blend 'red 'bg 0.3)
+      coverlay:tested-line-background-color (doom-blend 'green 'bg 0.0))
+
 ;; ;; maximize emacs upon startup
 ;; (toggle-frame-maximized)
 
