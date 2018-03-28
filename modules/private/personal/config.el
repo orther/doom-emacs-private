@@ -11,6 +11,10 @@
 ;;   (setq yas-snippet-dirs (append (list '+orther-snippets-dir)
 ;;                                  (delete 'yas-installed-snippets-dir yas-snippet-dirs))))
 
+;; prevent "ls does not support --dired;" error by using coreutils gls rather than macOS ls
+(let ((gls "/usr/local/bin/gls"))
+  (if (file-exists-p gls) (setq insert-directory-program gls)))
+
 ;; TODO replace w/ real jest package
 (load! +jest)
 
@@ -41,6 +45,84 @@
         neo-window-width 35
         neo-hidden-regexp-list (append neo-hidden-regexp-list
                                        '(".happypack" ".vscode" ".log$" ".DS_Store"))))
+
+;; *** Company
+(after! company
+  (setq company-tooltip-limit 10
+        company-minimum-prefix-length 2
+        company-idle-delay 0.2
+        company-tooltip-minimum-width 60
+        company-tooltip-margin 0
+        company-show-numbers t
+        company-tooltip-offset-display nil
+        company-dabbrev-downcase nil
+        company-dabbrev-ignore-case nil
+        company-dabbrev-code-other-buffers t
+        company-tooltip-align-annotations t
+        company-require-match 'never
+        company-frontends '(company-childframe-frontend company-echo-metadata-frontend)
+        company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
+        company-childframe-child-frame nil))
+(set! :company-backend '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
+(set! :company-backend '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
+(set! :company-backend '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+(set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+(set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
+(set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+
+;; ** Help
+(after! helpful
+  (set! :lookup 'helpful-mode :documentation #'helpful-at-point)
+  (set! :popup "^\\*helpful.*"
+    '((size . 80) (side . right))
+    '((select . t) (quit . t))))
+
+(def-package! tldr
+  :commands (tldr)
+  :config
+  (setq tldr-directory-path (concat doom-etc-dir "tldr/"))
+  (set! :popup "^\\*tldr\\*"
+    '((size . 80) (side . right))
+    '((transient . nil)  (modeline . nil) (select . t) (quit . t))))
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . 'dark))
+
+;; ** Tramp
+(after! tramp-sh
+  (add-to-list 'tramp-remote-path ""))
+(def-package! counsel-tramp
+  :commands (counsel-tramp)
+  :init
+  (package-initialize))
+;; (def-package! docker-tramp
+;;   :after tramp)
+
+(after! recentf
+  (add-to-list 'recentf-exclude 'file-remote-p)
+  (add-to-list 'recentf-exclude ".*\\.gz$")
+  (add-to-list 'recentf-exclude ".*\\.gpg$")
+  (add-to-list 'recentf-exclude ".*\\.gif$")
+  (add-to-list 'recentf-exclude ".*\\.pdf$")
+  (add-to-list 'recentf-exclude ".*\\.svg$")
+  (add-to-list 'recentf-exclude "/sudo:")
+  (add-to-list 'recentf-exclude "/GTAGS$")
+  (add-to-list 'recentf-exclude "/GRAGS$")
+  (add-to-list 'recentf-exclude "/GPATH$")
+  (add-to-list 'recentf-exclude "\\.mkv$")
+  (add-to-list 'recentf-exclude "\\.mp[34]$")
+  (add-to-list 'recentf-exclude "\\.avi$")
+  (add-to-list 'recentf-exclude "\\.sub$")
+  (add-to-list 'recentf-exclude "\\.srt$")
+  (add-to-list 'recentf-exclude "\\.ass$")
+  (add-to-list 'recentf-exclude ".*_archive$")
+  (add-to-list 'recentf-exclude "COMMIT_MSG")
+  (add-to-list 'recentf-exclude "COMMIT_EDITMSG")
+  (add-to-list 'recentf-exclude ".*Cellar.*"))
+
+(add-hook 'minibuffer-setup-hook #'smartparens-mode)
+(add-hook 'minibuffer-setup-hook #'doom|no-fringes-in-minibuffer)
+(set-window-fringes (minibuffer-window) 0 0 nil)
 
 ;; ;; ** Magit
 ;; (def-package! orgit :after magit)
@@ -291,17 +373,17 @@ started `counsel-recentf' from. Also uses `abbreviate-file-name'."
   :commands (drag-stuff-up
              drag-stuff-down))
 
-(def-package! sx
-  :config
-  (bind-keys :prefix "C-c s"
-             :prefix-map my-sx-map
-             :prefix-docstring "Global keymap for SX."
-             ("q" . sx-tab-all-questions)
-             ("i" . sx-inbox)
-             ("o" . sx-open-link)
-             ("u" . sx-tab-unanswered-my-tags)
-             ("a" . sx-ask)
-             ("s" . sx-search)))
+;; (def-package! sx
+;;   :config
+;;   (bind-keys :prefix "C-c s"
+;;              :prefix-map my-sx-map
+;;              :prefix-docstring "Global keymap for SX."
+;;              ("q" . sx-tab-all-questions)
+;;              ("i" . sx-inbox)
+;;              ("o" . sx-open-link)
+;;              ("u" . sx-tab-unanswered-my-tags)
+;;              ("a" . sx-ask)
+;;              ("s" . sx-search)))
 
 (def-package! restart-emacs
   :commands restart-emacs)

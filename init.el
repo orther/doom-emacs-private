@@ -29,6 +29,8 @@
 
 ;; ;; Set shell to bash to protect against problems caused by fish shell
 ;; (setq shell-file-name "/bin/bash")
+(setq-default explicit-shell-file-name (executable-find "bash"))
+(setq-default shell-file-name (executable-find "bash"))
 
 ;; (require 'core (concat user-emacs-directory "core/core"))
 
@@ -82,9 +84,9 @@
        make            ; run make tasks from Emacs
        magit
        neotree         ; a project drawer, like NERDTree for vim
-       password-store  ; password manager for nerds
-       (password-store ; password manager for nerds
-        +auth)         ; use password-store as auth-source backend
+       password-store ; password manager for nerds
+       ;; (password-store ; password manager for nerds
+       ;;  +auth)         ; use password-store as auth-source backend
        pdf             ; pdf enhancements
        rotate-text     ; cycle region at point between text candidates
        term            ; terminals in Emacs

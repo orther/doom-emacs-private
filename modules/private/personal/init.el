@@ -28,16 +28,13 @@
 (add-hook! doom-big-font-mode
   (setq +doom-modeline-height (if doom-big-font-mode 37 29)))
 
-;; (setq
- ;; epa-file-encrypt-to user-mail-address
-      ;; auth-sources (list (expand-file-name ".authinfo.gpg" "~")))
-
-;; (setq-default explicit-shell-file-name (executable-find "bash"))
-;; (setq-default shell-file-name (executable-find "bash"))
+(setq
+ epa-file-encrypt-to user-mail-address
+      auth-sources (list (expand-file-name ".authinfo.gpg" "~")))
 
 ;; (require 'auth-source-pass)
 ;; (auth-source-pass-enable)
 
-;; (auth-source-pass-enable)
+;; ;; troubleshoot auth-source
 ;; (setq auth-source-debug t)
 ;; (setq auth-source-do-cache nil)

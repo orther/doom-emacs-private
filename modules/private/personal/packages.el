@@ -38,7 +38,7 @@
 (package! drag-stuff)
 (package! restart-emacs)
 
-(package! sx)
+;; (package! sx)
 
 (package! discover-my-major)
 (package! list-environment)
