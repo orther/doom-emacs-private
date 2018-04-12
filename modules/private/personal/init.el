@@ -1,12 +1,12 @@
 ;;; private/personal/init.el -*- lexical-binding: t; -*-
 
-;; (cond (IS-MAC
-;;        (setq mac-command-modifier 'super
-;;              mac-option-modifier  'meta))
-;; 	  (IS-LINUX
-;; 	   (setq x-super-keysym 'super
-;; 			 x-alt-keysym   'meta)
-;; 	  ))
+(cond (IS-MAC
+       (setq mac-command-modifier 'meta
+             mac-option-modifier  'super))
+	  (IS-LINUX
+	   (setq x-super-keysym 'super
+			 x-alt-keysym   'meta)
+	  ))
 
 ;; Prevents the unstyled mode-line flash at startup
 (setq-default mode-line-format nil)
