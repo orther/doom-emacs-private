@@ -1,52 +1,22 @@
 ;;; init.el -*- lexical-binding: t; -*-
-;;
-;; Author:  Henrik Lissner <henrik@lissner.net>
-;; URL:     https://github.com/hlissner/.emacs.d
-;;
-;;   =================     ===============     ===============   ========  ========
-;;   \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
-;;   ||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||
-;;   || . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||
-;;   ||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||
-;;   || . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||
-;;   ||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||
-;;   || . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||
-;;   ||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||
-;;   ||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||
-;;   ||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||
-;;   ||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||
-;;   ||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||
-;;   ||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||
-;;   ||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||
-;;   ||.=='    _-'                                                     `' |  /==.||
-;;   =='    _-'                                                            \/   `==
-;;   \   _-'                                                                `-_   /
-;;    `''                                                                      ``'
-;;
-;; These demons are not part of GNU Emacs.
-;;
-;;; License: MIT
 
-;; ;; Set shell to bash to protect against problems caused by fish shell
-;; (setq shell-file-name "/bin/bash")
+;; Set shell to bash to protect against problems caused by fish shell
 (setq-default explicit-shell-file-name (executable-find "bash"))
 (setq-default shell-file-name (executable-find "bash"))
-
-;; (require 'core (concat user-emacs-directory "core/core"))
 
 (doom! :feature
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
-      ;debugger          ; FIXME stepping through code, to help you add bugs
+       debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
        (evil +everywhere); come to the dark side, we have cookies
-       ;file-templates    ; auto-snippets for empty files
+       file-templates    ; auto-snippets for empty files
        (lookup           ; helps you navigate your code and documentation
         +devdocs         ; ...on devdocs.io online
         +docsets)        ; ...or in Dash docsets locally
        services          ; TODO managing external services & code builders
-       ;; snippets          ; my elves. They type so I don't have to
+       snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
        syntax-checker    ; tasing you for every semicolon you forget
        version-control   ; remember, remember that commit in November
@@ -54,7 +24,9 @@
        ;search          ; advanced searching functionality (copied from bmacs)
 
        :completion
-       company         ; the ultimate code completion backend
+       (company        ; the ultimate code completion backend
+        +auto
+        +childframe)
        ivy             ; a search engine for love and life
       ;helm            ; the *other* search engine for love and life
       ;ido             ; the other *other* search engine...
@@ -87,7 +59,7 @@
        password-store ; password manager for nerds
        ;; (password-store ; password manager for nerds
        ;;  +auth)         ; use password-store as auth-source backend
-       pdf             ; pdf enhancements
+       pdf               ; pdf enhancements
        rotate-text     ; cycle region at point between text candidates
        term            ; terminals in Emacs
        ;tmux            ; an API for interacting with tmux
@@ -97,7 +69,9 @@
        data              ; config/data formats
        elixir            ; erlang done right
        emacs-lisp        ; drown in parentheses
+       ess               ; emacs speaks statistics
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       latex             ; writing papers in Emacs has never been so fun
        markdown          ; writing docs for people to ignore
        (org              ; organize your plain life in plain text
         +attach          ; custom attachment system
@@ -107,9 +81,11 @@
         +present         ; Emacs for presentations
         +publish)        ; Emacs+Org as a static site generator
        php               ; perl's insecure younger brother
+       plantuml          ; diagrams for confusing people more
        python            ; beautiful is better than ugly
        rest              ; Emacs as a REST client
        sh                ; she sells (ba|z)sh shells on the C xor
+       typescript        ; javascript, but better
        web               ; the tubes
 
        ;; Applications are complex and opinionated modules that transform Emacs
@@ -125,13 +101,7 @@
       ; +langtool)       ; a proofreader (grammar/style check) for Emacs
 
        :config
-       ;; The default module set reasonable defaults for Emacs. It also provides
-       ;; a Spacemacs-inspired keybinding scheme, a custom yasnippet library,
-       ;; and additional ex commands for evil-mode. Use it as a reference for
-       ;; your own modules.
-       ;; (default +bindings +snippets +evil-commands)
-       (default +bindings +evil-commands)
+       (default +bindings +snippets +evil-commands)
 
-       :private
-       personal
+       ;; :private personal
        )

@@ -57,13 +57,13 @@
 ;;  '(evil-goggles-paste-face  ((t (:foreground "#98be65"))))
 ;;  '(evil-goggles-yank-face   ((t (:foreground "#51afef")))))
 
-;; ;; Override org mode colors
-;; (custom-set-faces
-;;  '(org-level-1              ((t :foreground "#51afef" :inherit nil :height 1.2)))
-;;  '(org-level-2              ((t :foreground "#DCAEEA" :inherit nil :height 1.1)))
-;;  '(org-level-3              ((t :foreground "#a9a1e1" :inherit nil :height 1.1)))
-;;  '(org-level-4              ((t :foreground "#ECBE7B" :inherit nil :height 1.1)))
-;;  '(org-level-5              ((t :foreground "#46D9FF" :inherit nil :height 1.1))))
+;; Override org mode colors
+(custom-set-faces
+ '(org-level-1              ((t :foreground "#51afef" :inherit nil :height 1.2)))
+ '(org-level-2              ((t :foreground "#DCAEEA" :inherit nil :height 1.1)))
+ '(org-level-3              ((t :foreground "#a9a1e1" :inherit nil :height 1.1)))
+ '(org-level-4              ((t :foreground "#ECBE7B" :inherit nil :height 1.1)))
+ '(org-level-5              ((t :foreground "#46D9FF" :inherit nil :height 1.1))))
 
 ;; Close magit buffer after following file
 (defun close-magit-buffer ()

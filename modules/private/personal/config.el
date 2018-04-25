@@ -15,11 +15,12 @@
 (let ((gls "/usr/local/bin/gls"))
   (if (file-exists-p gls) (setq insert-directory-program gls)))
 
-;; TODO replace w/ real jest package
-(load! +jest)
+;; ;; TODO replace w/ real jest package
+;; (load! +jest)
 
 ;; coverlay overlay colors
-(setq coverlay:untested-line-background-color (doom-blend 'red 'bg 0.3)
+(setq
+      coverlay:untested-line-background-color (doom-blend 'red 'bg 0.3)
       coverlay:tested-line-background-color (doom-blend 'green 'bg 0.0))
 
 ;; ;; maximize emacs upon startup
@@ -50,29 +51,75 @@
         neo-hidden-regexp-list (append neo-hidden-regexp-list
                                        '(".happypack" ".vscode" ".log$" ".DS_Store"))))
 
-;; *** Company
+;; ;; *** Company
+;; (after! company
+;;   (setq company-tooltip-limit 10
+;;         company-minimum-prefix-length 2
+;;         company-idle-delay 0.2
+;;         company-tooltip-minimum-width 60
+;;         company-tooltip-margin 0
+;;         company-show-numbers t
+;;         company-tooltip-offset-display nil
+;;         company-dabbrev-downcase nil
+;;         company-dabbrev-ignore-case nil
+;;         company-dabbrev-code-other-buffers t
+;;         company-tooltip-align-annotations t
+;;         company-require-match 'never
+;;         company-frontends '(company-childframe-frontend company-echo-metadata-frontend)
+;;         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
+;;         company-childframe-child-frame nil))
+;; (set! :company-backend '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
+;; (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+
+;; ;; *** Company
+;; (after! company
+;;   (setq company-tooltip-limit 10
+;;         company-minimum-prefix-length 2
+;;         company-tooltip-minimum-width 60
+;;         company-tooltip-margin 0
+;;         company-tooltip-offset-display nil
+;;         company-dabbrev-downcase nil
+;;         company-dabbrev-ignore-case nil
+;;         company-dabbrev-code-other-buffers t
+;;         company-tooltip-align-annotations t
+;;         company-frontends nil
+;;         company-require-match 'never
+;;         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode inferior-python-mode)))
+;; (set! :company-backend '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+;; (set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
+;; (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+;; (after! company-box
+;;   (setq
+;;    company-box-icons-elisp
+;;    (list
+;;     (concat (all-the-icons-material "functions" :height 0.8 :face 'all-the-icons-red))
+;;     (concat (all-the-icons-material "check_circle" :height 0.8 :face 'all-the-icons-blue))
+;;     (concat (all-the-icons-material "stars" :height 0.8 :face 'all-the-icons-orange))
+;;     (concat (all-the-icons-material "format_paint" :height 0.8 :face 'all-the-icons-pink))))
+;;   (setq company-box-icons-unknown (concat (all-the-icons-material "find_in_page" :height 0.8 :face 'all-the-icons-purple)))
+;;   (setq company-box-backends-colors nil)
+;;   (setq company-box-icons-yasnippet (concat (all-the-icons-material "short_text" :height 0.8 :face 'all-the-icons-green))))
+
 (after! company
   (setq company-tooltip-limit 10
         company-minimum-prefix-length 2
-        company-idle-delay 0.2
         company-tooltip-minimum-width 60
         company-tooltip-margin 0
-        company-show-numbers t
         company-tooltip-offset-display nil
         company-dabbrev-downcase nil
         company-dabbrev-ignore-case nil
         company-dabbrev-code-other-buffers t
-        company-tooltip-align-annotations t
-        company-require-match 'never
-        company-frontends '(company-childframe-frontend company-echo-metadata-frontend)
-        company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
-        company-childframe-child-frame nil))
-(set! :company-backend '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
-(set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+        company-tooltip-align-annotations t))
+;;         company-frontends nil
+;;         company-require-match 'never
+;;         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode inferior-python-mode)))
 
 ;; ** Help
 (after! helpful
