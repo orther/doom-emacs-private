@@ -26,6 +26,15 @@
 
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
 
+(setq doom-font (font-spec :family "Fira Mono" :size 16)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 16)
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono" :size 16)
+      doom-big-font (font-spec :family "Fira Mono" :size 24)
+
+      ;; frame-resize-pixelwise t
+      )
+
+
 ;; ;;
 ;; ;; Keybindings
 ;; ;;
