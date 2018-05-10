@@ -18,18 +18,19 @@
        services          ; TODO managing external services & code builders
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
-       syntax-checker    ; tasing you for every semicolon you forget
+       (syntax-checker   ; tasing you for every semicolon you forget
+        +childframe)     ; use childframes for error popups (Emacs 26+ only)
        version-control   ; remember, remember that commit in November
        workspaces        ; tab emulation, persistence & separate workspaces
        ;search          ; advanced searching functionality (copied from bmacs)
 
+
        :completion
-       (company        ; the ultimate code completion backend
-        +auto
-        +childframe)
-       ivy             ; a search engine for love and life
-      ;helm            ; the *other* search engine for love and life
-      ;ido             ; the other *other* search engine...
+       (company          ; the ultimate code completion backend
+        +auto            ; as-you-type code completion
+        +childframe)     ; a nicer company UI (Emacs 26+ only)
+       (ivy              ; a search engine for love and life
+        +childframe)     ; uses childframes for popups (Emacs 26+ only)
 
        :ui
        doom            ; what makes DOOM look the way it does
@@ -43,7 +44,7 @@
       ;tabbar          ; FIXME an (incomplete) tab bar for Emacs
        vi-tilde-fringe ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
-       posframe          ; use child frames where possible (Emacs 26+ only)
+       ;; posframe          ; use child frames where possible (Emacs 26+ only)
 
        :tools
        dired           ; making dired pretty [functional]
