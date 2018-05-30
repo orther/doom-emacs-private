@@ -5,9 +5,6 @@
 (setq-default shell-file-name (executable-find "bash"))
 
 (doom! :feature
-       (popup            ; tame sudden yet inevitable temporary windows
-        +all             ; catch all popups that start with an asterix
-        +defaults)       ; default popup rules
        debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
        (evil +everywhere); come to the dark side, we have cookies
@@ -15,7 +12,7 @@
        (lookup           ; helps you navigate your code and documentation
         +devdocs         ; ...on devdocs.io online
         +docsets)        ; ...or in Dash docsets locally
-       services          ; TODO managing external services & code builders
+      ;services          ; TODO managing external services & code builders
        snippets          ; my elves. They type so I don't have to
        spellcheck        ; tasing you for misspelling mispelling
        (syntax-checker   ; tasing you for every semicolon you forget
@@ -37,34 +34,37 @@
        doom-dashboard  ; a nifty splash screen for Emacs
        doom-modeline   ; a snazzy Atom-inspired mode-line
        doom-quit       ; DOOM quit-message prompts when you quit Emacs
+       evil-goggles    ; display visual hints when editing in evil
        hl-todo         ; highlight TODO/FIXME/NOTE tags
        nav-flash       ; blink the current line after jumping
-       evil-goggles    ; display visual hints when editing in evil
-      ;unicode         ; extended unicode support for various languages
-      ;tabbar          ; FIXME an (incomplete) tab bar for Emacs
-       vi-tilde-fringe ; fringe tildes to mark beyond EOB
-       window-select     ; visually switch windows
-       ;; posframe          ; use child frames where possible (Emacs 26+ only)
+       neotree         ; a project drawer, like NERDTree for vim
+       (popup          ; tame sudden yet inevitable temporary windows
+        +all           ; catch all popups that start with an asterix
+        +defaults)     ; default popup rules
+      ;vi-tilde-fringe ; fringe tildes to mark beyond EOB
+       window-select   ; visually switch windows
 
-       :tools
+       :emacs
        dired           ; making dired pretty [functional]
-       editorconfig    ; let someone else argue about tabs vs spaces
        electric-indent ; smarter, keyword-based electric-indent
        eshell          ; a consistent, cross-platform shell (WIP)
-       gist            ; interacting with github gists
        imenu           ; an imenu sidebar and searchable code index
-       impatient-mode  ; show off code over HTTP
+       term            ; terminals in Emacs
+
+       :tools
+       editorconfig    ; let someone else argue about tabs vs spaces
+       gist            ; interacting with github gists
+      ;impatient-mode  ; show off code over HTTP
       ;macos           ; MacOS-specific commands
        make            ; run make tasks from Emacs
        magit
-       neotree         ; a project drawer, like NERDTree for vim
-       password-store ; password manager for nerds
-       ;; (password-store ; password manager for nerds
-       ;;  +auth)         ; use password-store as auth-source backend
-       pdf               ; pdf enhancements
+       password-store  ; password manager for nerds
+      ;(password-store ; password manager for nerds
+      ; +auth)         ; use password-store as auth-source backend
+       prodigy         ; Managing external services
+       pdf             ; pdf enhancements
        rotate-text     ; cycle region at point between text candidates
-       term            ; terminals in Emacs
-       ;tmux            ; an API for interacting with tmux
+       ;tmux           ; an API for interacting with tmux
        upload          ; map local to remote projects via ssh/ftp
 
        :lang
@@ -87,7 +87,6 @@
        python            ; beautiful is better than ugly
        rest              ; Emacs as a REST client
        sh                ; she sells (ba|z)sh shells on the C xor
-       typescript        ; javascript, but better
        web               ; the tubes
 
        ;; Applications are complex and opinionated modules that transform Emacs

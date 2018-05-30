@@ -26,10 +26,10 @@
 
 (add-hook! minibuffer-setup (setq-local show-trailing-whitespace nil))
 
-(setq doom-font (font-spec :family "Fira Mono" :size 16)
-      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 16)
-      doom-unicode-font (font-spec :family "DejaVu Sans Mono" :size 16)
-      doom-big-font (font-spec :family "Fira Mono" :size 24)
+(setq doom-font (font-spec :family "Fira Mono" :size 14)
+      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 14)
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono" :size 14)
+      doom-big-font (font-spec :family "Fira Mono" :size 22)
 
       ;; frame-resize-pixelwise t
       )
@@ -77,11 +77,29 @@
                                         (file-directory-p (expand-file-name ".git/" subdir)))
                                 collect subdir))))
 
+(setq +org-dir (expand-file-name "~/work/org"))
+
+;; display plantuml images inline
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (when org-inline-image-overlays
+              (org-redisplay-inline-images))))
+
+;; setup custom node modules for babel es6-7 support in org src blocks
+(setenv "NODE_PATH"
+  (concat
+   (getenv "HOME") "/.org/node_modules" ":"
+   (getenv "NODE_PATH")))
+
+(after! neotree
+  :config
+  (setq neo-window-width 35))
+
 ;; lang/org
-(add-hook 'org-mode-hook #'auto-fill-mode)
+;; (add-hook 'org-mode-hook #'auto-fill-mode)
 ;; The standard unicode characters are usually misaligned depending on the font.
 ;; This bugs me. Personally, markdown #-marks for headlines are more elegant.
-(setq org-bullets-bullet-list '("#"))
+;; (setq org-bullets-bullet-list '("#"))
 
 ;; ;; app/email
 ;; (after! mu4e
