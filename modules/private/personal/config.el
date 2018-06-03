@@ -175,54 +175,6 @@
 (add-hook 'minibuffer-setup-hook #'doom|no-fringes-in-minibuffer)
 (set-window-fringes (minibuffer-window) 0 0 nil)
 
-;; ;; ** Magit
-;; (def-package! orgit :after magit)
-;; (after! magithub
-;;   (require 'parse-time)
-;;   (defmacro magithub--time-number-of-days-since-string (iso8601)
-;;     `(time-to-number-of-days
-;;       (time-since
-;;        (parse-iso8601-time-string
-;;         (concat ,iso8601 "+00:00")))))
-
-;;   (defun issue-filter-to-days (days type)
-;;     `(lambda (issue)
-;;        (let ((created_at (magithub--time-number-of-days-since-string
-;;                           (alist-get 'created_at issue)))
-;;              (updated_at (magithub--time-number-of-days-since-string
-;;                           (alist-get 'updated_at issue))))
-;;          (or (< created_at ,days) (< updated_at ,days)))))
-
-;;   (defun magithub-filter-maybe (&optional limit)
-;;     "Add filters to magithub only if number of issues is greter than LIMIT."
-;;     (let ((max-issues (length (ignore-errors (magithub-issues))))
-;;           (max-pull-requests (length (ignore-errors (magithub-pull-requests))))
-;;           (limit (or limit 1)))
-;;       (when (> max-issues limit)
-;;         (add-to-list (make-local-variable 'magithub-issue-issue-filter-functions)
-;;                      (issue-filter-to-days limit "issues")))
-;;       (when (> max-pull-requests limit)
-;;         (add-to-list (make-local-variable 'magithub-issue-pull-request-filter-functions)
-;;                      (issue-filter-to-days limit "pull-requests")))))
-
-;;   (add-to-list 'magit-status-mode-hook #'magithub-filter-maybe)
-;;   (setq magithub-clone-default-directory "~/workspace/sources/"))
-;; (after! magit
-;;   (magit-wip-after-save-mode 1)
-;;   (magit-wip-after-apply-mode 1)
-;;   (magithub-feature-autoinject t)
-;;   (setq magit-repository-directories '("~/dev/"))
-;;   (set! :evil-state 'magit-repolist-mode 'normal)
-;;   (map! (:map with-editor-mode-map
-;;           (:localleader
-;;             :desc "Finish" :n "," #'with-editor-finish
-;;             :desc "Abort"  :n "k" #'with-editor-cancel)))
-;;   (set! :popup "^.*magit" '((slot . -1) (side . right) (size . 80)) '((modeline . nil) (select . t)))
-;;   (set! :popup "^\\*magit.*popup\\*" '((slot . 0) (side . right)) '((modeline . nil) (select . t)))
-;;   (set! :popup "^.*magit-revision:.*" '((slot . 2) (side . right) (window-height . 0.6)) '((modeline . nil) (select . t)))
-;;   (set! :popup "^.*magit-diff:.*" '((slot . 2) (side . right) (window-height . 0.6)) '((modeline . nil) (select . nil))))
-
-
 ;; * Ivy Actions
 (after! counsel
   (defun +ivy-recentf-transformer (str)
@@ -265,6 +217,7 @@ started `counsel-recentf' from. Also uses `abbreviate-file-name'."
    'counsel-M-x
    `(("h" +ivy/helpful-function "Helpful")
      ("f" +ivy/find-function "Find"))))
+
 (after! counsel-projectile
   (ivy-add-actions
    'counsel-projectile-switch-project
@@ -471,92 +424,97 @@ started `counsel-recentf' from. Also uses `abbreviate-file-name'."
         ;; prompt for the key passphrase.
         epa-pinentry-mode 'loopback))
 
-;; make fullscreen on load
-(after! evil
-  (toggle-frame-fullscreen))
+;; ;; make fullscreen on load
+;; (after! evil
+;;   (toggle-frame-fullscreen))
 
-;; disable :unless predicates with (sp-pair "'" nil :unless nil)
-;; disable :post-handlers with (sp-pair "{" nil :post-handlers nil)
-;; ...or specific :post-handlers with (sp-pair "{" nil :post-handlers '(:rem ("| " "SPC")))
-(after! smartparens
-  ;; Autopair quotes more conservatively; if I'm next to a word/before another
-  ;; quote, I likely don't want another pair.
-  (let ((unless-list '(sp-point-before-word-p
-                       sp-point-after-word-p
-                       sp-point-before-same-p)))
-    (sp-pair "'"  nil :unless unless-list)
-    (sp-pair "\"" nil :unless unless-list))
+;; ;; disable :unless predicates with (sp-pair "'" nil :unless nil)
+;; ;; disable :post-handlers with (sp-pair "{" nil :post-handlers nil)
+;; ;; ...or specific :post-handlers with (sp-pair "{" nil :post-handlers '(:rem ("| " "SPC")))
+;; (after! smartparens
+;;   ;; Autopair quotes more conservatively; if I'm next to a word/before another
+;;   ;; quote, I likely don't want another pair.
+;;   (let ((unless-list '(sp-point-before-word-p
+;;                        sp-point-after-word-p
+;;                        sp-point-before-same-p)))
+;;     (sp-pair "'"  nil :unless unless-list)
+;;     (sp-pair "\"" nil :unless unless-list))
 
-  ;; Expand {|} => { | }
-  ;; Expand {|} => {
-  ;;   |
-  ;; }
-  (dolist (brace '("(" "{" "["))
-    (sp-pair brace nil
-             :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
-             ;; I likely don't want a new pair if adjacent to a word or opening brace
-             :unless '(sp-point-before-word-p sp-point-before-same-p)))
+;;   ;; Expand {|} => { | }
+;;   ;; Expand {|} => {
+;;   ;;   |
+;;   ;; }
+;;   (dolist (brace '("(" "{" "["))
+;;     (sp-pair brace nil
+;;              :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+;;              ;; I likely don't want a new pair if adjacent to a word or opening brace
+;;              :unless '(sp-point-before-word-p sp-point-before-same-p)))
 
-  ;; Don't do square-bracket space-expansion where it doesn't make sense to
-  (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode gfm-mode)
-                 "[" nil :post-handlers '(:rem ("| " "SPC")))
+;;   ;; Don't do square-bracket space-expansion where it doesn't make sense to
+;;   (sp-local-pair '(emacs-lisp-mode org-mode markdown-mode gfm-mode)
+;;                  "[" nil :post-handlers '(:rem ("| " "SPC")))
 
-  ;; Highjacks backspace to:
-  ;;  a) balance spaces inside brackets/parentheses ( | ) -> (|)
-  ;;  b) delete space-indented `tab-width' steps at a time
-  ;;  c) close empty multiline brace blocks in one step:
-  ;;     {
-  ;;     |
-  ;;     }
-  ;;     becomes {|}
-  ;;  d) refresh smartparens' :post-handlers, so SPC and RET expansions work
-  ;;     even after a backspace.
-  ;;  e) properly delete smartparen pairs when they are encountered, without the
-  ;;     need for strict mode.
-  ;;  f) do none of this when inside a string
-  (advice-add #'delete-backward-char :override #'doom/delete-backward-char)
+;;   ;; Highjacks backspace to:
+;;   ;;  a) balance spaces inside brackets/parentheses ( | ) -> (|)
+;;   ;;  b) delete space-indented `tab-width' steps at a time
+;;   ;;  c) close empty multiline brace blocks in one step:
+;;   ;;     {
+;;   ;;     |
+;;   ;;     }
+;;   ;;     becomes {|}
+;;   ;;  d) refresh smartparens' :post-handlers, so SPC and RET expansions work
+;;   ;;     even after a backspace.
+;;   ;;  e) properly delete smartparen pairs when they are encountered, without the
+;;   ;;     need for strict mode.
+;;   ;;  f) do none of this when inside a string
+;;   (advice-add #'delete-backward-char :override #'doom/delete-backward-char)
 
-  ;; Makes `newline-and-indent' smarter when dealing with comments
-  (advice-add #'newline-and-indent :around #'doom*newline-and-indent))
+;;   ;; Makes `newline-and-indent' smarter when dealing with comments
+;;   (advice-add #'newline-and-indent :around #'doom*newline-and-indent))
 
 
-(when (featurep 'evil)
-  (when (featurep! +evil-commands)
-    (load! +evil-commands))
+;;
+;; evil - vim
+;;
 
-  (when (featurep! +bindings)
-    ;; Makes ; and , the universal repeat-keys in evil-mode
-    (defmacro do-repeat! (command next-func prev-func)
-      "Repeat motions with ;/,"
-      (let ((fn-sym (intern (format "+evil*repeat-%s" command))))
-        `(progn
-           (defun ,fn-sym (&rest _)
-             (define-key evil-motion-state-map ";" ',next-func)
-             (define-key evil-motion-state-map "," ',prev-func))
-           (advice-add #',command :before #',fn-sym))))
+;; TODO uncomment this if we actually need it
+;; (when (featurep 'evil)
+;;   (when (featurep! +evil-commands)
+;;     (load! +evil-commands))
 
-    ;; n/N
-    (do-repeat! evil-ex-search-next evil-ex-search-next evil-ex-search-previous)
-    (do-repeat! evil-ex-search-previous evil-ex-search-next evil-ex-search-previous)
-    (do-repeat! evil-ex-search-forward evil-ex-search-next evil-ex-search-previous)
-    (do-repeat! evil-ex-search-backward evil-ex-search-next evil-ex-search-previous)
+;;   (when (featurep! +bindings)
+;;     ;; Makes ; and , the universal repeat-keys in evil-mode
+;;     (defmacro do-repeat! (command next-func prev-func)
+;;       "Repeat motions with ;/,"
+;;       (let ((fn-sym (intern (format "+evil*repeat-%s" command))))
+;;         `(progn
+;;            (defun ,fn-sym (&rest _)
+;;              (define-key evil-motion-state-map ";" ',next-func)
+;;              (define-key evil-motion-state-map "," ',prev-func))
+;;            (advice-add #',command :before #',fn-sym))))
 
-    ;; f/F/t/T/s/S
-    (setq evil-snipe-repeat-keys nil
-          evil-snipe-override-evil-repeat-keys nil) ; causes problems with remapped ;
-    (after! evil-snipe
-      (do-repeat! evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-F evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-t evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-T evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-s evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-S evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-x evil-snipe-repeat evil-snipe-repeat-reverse)
-      (do-repeat! evil-snipe-X evil-snipe-repeat evil-snipe-repeat-reverse))
+;;     ;; n/N
+;;     (do-repeat! evil-ex-search-next evil-ex-search-next evil-ex-search-previous)
+;;     (do-repeat! evil-ex-search-previous evil-ex-search-next evil-ex-search-previous)
+;;     (do-repeat! evil-ex-search-forward evil-ex-search-next evil-ex-search-previous)
+;;     (do-repeat! evil-ex-search-backward evil-ex-search-next evil-ex-search-previous)
 
-    ;; */#
-    (after! evil-visualstar
-      (do-repeat! evil-visualstar/begin-search-forward
-                  evil-ex-search-next evil-ex-search-previous)
-      (do-repeat! evil-visualstar/begin-search-backward
-                  evil-ex-search-previous evil-ex-search-next))))
+;;     ;; f/F/t/T/s/S
+;;     (setq evil-snipe-repeat-keys nil
+;;           evil-snipe-override-evil-repeat-keys nil) ; causes problems with remapped ;
+;;     (after! evil-snipe
+;;       (do-repeat! evil-snipe-f evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-F evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-t evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-T evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-s evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-S evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-x evil-snipe-repeat evil-snipe-repeat-reverse)
+;;       (do-repeat! evil-snipe-X evil-snipe-repeat evil-snipe-repeat-reverse))
+
+;;     ;; */#
+;;     (after! evil-visualstar
+;;       (do-repeat! evil-visualstar/begin-search-forward
+;;                   evil-ex-search-next evil-ex-search-previous)
+;;       (do-repeat! evil-visualstar/begin-search-backward
+;;                   evil-ex-search-previous evil-ex-search-next))))

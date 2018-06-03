@@ -7,7 +7,7 @@
 (package! mocha)
 (package! coverlay)
 
-;; (package! orgit)
+(package! orgit)
 ;; (package! evil-magit)
 ;; (package! magithub)
 

@@ -34,6 +34,62 @@
       ;; frame-resize-pixelwise t
       )
 
+;; **
+;; ** Magit
+;; **
+
+(def-package! orgit :after magit)
+(after! magithub
+  (setq magithub-clone-default-directory "~/work/playground/"))
+
+(after! magit
+  (def-package! pretty-magit
+    ;; :load-path "~/.doom.d/local/"
+    :load-path "~/.config/doom/local/"
+    :config
+    (pretty-magit "feat" ? '(:foreground "slate gray" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "fix" ? '(:foreground "#D96B59" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "docs" ? '(:foreground "#F7E585" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "style" ? '(:foreground "#63A6E4" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "refactor" ? '(:foreground "#A5DAE6" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "perf" ? '(:foreground "#D76444" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "test" ? '(:foreground "#A6E27A" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "chore" ? '(:foreground "#FFBB00" :height 1.0 :family "FontAwesome"))
+    (pretty-magit "master" ? '(:box nil :height 1.0 :family "github-octicons") t)
+    (pretty-magit "origin" ? '(:box nil :height 1.0 :family "github-octicons") t))
+
+  (magit-wip-after-save-mode 1)
+  (magit-wip-after-apply-mode 1)
+  ;; (setq magit-save-repository-buffers 'dontask
+  ;;       magit-repository-directories '("~/dev/" "~/work/dev/"))
+
+  (advice-add 'magit-list-repositories :override #'*magit-list-repositories)
+  (set! :evil-state 'magit-repolist-mode 'normal)
+  (map! :map magit-repolist-mode-map
+        :nmvo doom-leader-key nil
+        :map with-editor-mode-map
+        (:localleader
+          :desc "Finish" :n "," #'with-editor-finish
+          :desc "Abort" :n "k" #'with-editor-cancel))
+
+  (setq magit-bury-buffer-function #'+magit/quit
+        magit-popup-display-buffer-action nil
+        magit-display-file-buffer-function 'switch-to-buffer-other-window)
+  (map! :map magit-mode-map
+        [remap quit-window] #'+magit/quit
+        :n "\\" nil)
+  (set! :popup "^\\(?: ?\\*\\)?magit.*: "
+    '((slot . -1) (side . right) (size . 80))
+    '((select . t) (quit . nil)))
+  (set! :popup "^\\*magit.*popup\\*"
+    '((slot . 0) (side . right))
+    '((select . t)))
+  (set! :popup "^\\(?: ?\\*\\)?magit-revision:.*"
+    '((slot . 2) (side . right) (window-height . 0.6))
+    '((select . t)))
+  (set! :popup "^\\(?: ?\\*\\)?magit-diff:.*"
+    '((slot . 2) (side . right) (window-height . 0.6))
+    '((select . nil))))
 
 ;; ;;
 ;; ;; Keybindings
@@ -68,14 +124,14 @@
   (set-face-attribute 'helm-source-header nil :height 0.1))
 
 ;; tools/magit
-(after! magit
-  (setq magit-repository-directories
-        (cl-loop for dir in (directory-files "~/work" t "^[^.]" t)
-                 if (file-directory-p dir)
-                 nconc (cl-loop for subdir in (directory-files dir t "^[^.]" t)
-                                if (and (file-directory-p subdir)
-                                        (file-directory-p (expand-file-name ".git/" subdir)))
-                                collect subdir))))
+;; (after! magit
+;;   (setq magit-repository-directories
+;;         (cl-loop for dir in (directory-files "~/work" t "^[^.]" t)
+;;                  if (file-directory-p dir)
+;;                  nconc (cl-loop for subdir in (directory-files dir t "^[^.]" t)
+;;                                 if (and (file-directory-p subdir)
+;;                                         (file-directory-p (expand-file-name ".git/" subdir)))
+;;                                 collect subdir))))
 
 (setq +org-dir (expand-file-name "~/work/org"))
 
@@ -100,123 +156,3 @@
 ;; The standard unicode characters are usually misaligned depending on the font.
 ;; This bugs me. Personally, markdown #-marks for headlines are more elegant.
 ;; (setq org-bullets-bullet-list '("#"))
-
-;; ;; app/email
-;; (after! mu4e
-;;   (setq mu4e-bookmarks
-;;         `(("\\\\Inbox" "Inbox" ?i)
-;;           ("\\\\Draft" "Drafts" ?d)
-;;           ("flag:unread AND \\\\Inbox" "Unread messages" ?u)
-;;           ("flag:flagged" "Starred messages" ?s)
-;;           ("date:today..now" "Today's messages" ?t)
-;;           ("date:7d..now" "Last 7 days" ?w)
-;;           ("mime:image/*" "Messages with images" ?p)))
-
-;;   (setq smtpmail-stream-type 'starttls
-;;         smtpmail-default-smtp-server "smtp.gmail.com"
-;;         smtpmail-smtp-server "smtp.gmail.com"
-;;         smtpmail-smtp-service 587)
-
-;;   (set! :email "gmail.com"
-;;     '((mu4e-sent-folder       . "/gmail.com/Sent Mail")
-;;       (mu4e-drafts-folder     . "/gmail.com/Drafts")
-;;       (mu4e-trash-folder      . "/gmail.com/Trash")
-;;       (mu4e-refile-folder     . "/gmail.com/All Mail")
-;;       (smtpmail-smtp-user     . "hlissner")
-;;       (user-mail-address      . "hlissner@gmail.com")
-;;       (mu4e-compose-signature . "---\nHenrik")))
-
-;;   (set! :email "lissner.net"
-;;     '((mu4e-sent-folder       . "/lissner.net/Sent Mail")
-;;       (mu4e-drafts-folder     . "/lissner.net/Drafts")
-;;       (mu4e-trash-folder      . "/lissner.net/Trash")
-;;       (mu4e-refile-folder     . "/lissner.net/All Mail")
-;;       (smtpmail-smtp-user     . "henrik@lissner.net")
-;;       (user-mail-address      . "henrik@lissner.net")
-;;       (mu4e-compose-signature . "---\nHenrik Lissner"))
-;;     t)
-
-;;   ;; an evil-esque keybinding scheme for mu4e
-;;   (setq mu4e-view-mode-map (make-sparse-keymap)
-;;         ;; mu4e-compose-mode-map (make-sparse-keymap)
-;;         mu4e-headers-mode-map (make-sparse-keymap)
-;;         mu4e-main-mode-map (make-sparse-keymap))
-
-;;   (map! (:map (mu4e-main-mode-map mu4e-view-mode-map)
-;;           :leader
-;;           :n "," #'mu4e-context-switch
-;;           :n "." #'mu4e-headers-search-bookmark
-;;           :n ">" #'mu4e-headers-search-bookmark-edit
-;;           :n "/" #'mu4e~headers-jump-to-maildir)
-
-;;         (:map (mu4e-headers-mode-map mu4e-view-mode-map)
-;;           :localleader
-;;           :n "f" #'mu4e-compose-forward
-;;           :n "r" #'mu4e-compose-reply
-;;           :n "c" #'mu4e-compose-new
-;;           :n "e" #'mu4e-compose-edit)
-
-;;         (:map mu4e-main-mode-map
-;;           :n "q"   #'mu4e-quit
-;;           :n "u"   #'mu4e-update-index
-;;           :n "U"   #'mu4e-update-mail-and-index
-;;           :n "J"   #'mu4e~headers-jump-to-maildir
-;;           :n "c"   #'+email/compose
-;;           :n "b"   #'mu4e-headers-search-bookmark)
-
-;;         (:map mu4e-headers-mode-map
-;;           :n "q"   #'mu4e~headers-quit-buffer
-;;           :n "r"   #'mu4e-compose-reply
-;;           :n "c"   #'mu4e-compose-edit
-;;           :n "s"   #'mu4e-headers-search-edit
-;;           :n "S"   #'mu4e-headers-search-narrow
-;;           :n "RET" #'mu4e-headers-view-message
-;;           :n "u"   #'mu4e-headers-mark-for-unmark
-;;           :n "U"   #'mu4e-mark-unmark-all
-;;           :n "v"   #'evil-visual-line
-;;           :nv "d"  #'+email/mark
-;;           :nv "="  #'+email/mark
-;;           :nv "-"  #'+email/mark
-;;           :nv "+"  #'+email/mark
-;;           :nv "!"  #'+email/mark
-;;           :nv "?"  #'+email/mark
-;;           :nv "r"  #'+email/mark
-;;           :nv "m"  #'+email/mark
-;;           :n  "x"  #'mu4e-mark-execute-all
-
-;;           :n "]]"  #'mu4e-headers-next-unread
-;;           :n "[["  #'mu4e-headers-prev-unread
-
-;;           (:localleader
-;;             :n "s" 'mu4e-headers-change-sorting
-;;             :n "t" 'mu4e-headers-toggle-threading
-;;             :n "r" 'mu4e-headers-toggle-include-related
-
-;;             :n "%" #'mu4e-headers-mark-pattern
-;;             :n "t" #'mu4e-headers-mark-subthread
-;;             :n "T" #'mu4e-headers-mark-thread))
-
-;;         (:map mu4e-view-mode-map
-;;           :n "q" #'mu4e~view-quit-buffer
-;;           :n "r" #'mu4e-compose-reply
-;;           :n "c" #'mu4e-compose-edit
-;;           :n "o" #'ace-link-mu4e
-
-;;           :n "<M-Left>"  #'mu4e-view-headers-prev
-;;           :n "<M-Right>" #'mu4e-view-headers-next
-;;           :n "[m" #'mu4e-view-headers-prev
-;;           :n "]m" #'mu4e-view-headers-next
-;;           :n "[u" #'mu4e-view-headers-prev-unread
-;;           :n "]u" #'mu4e-view-headers-next-unread
-
-;;           (:localleader
-;;             :n "%" #'mu4e-view-mark-pattern
-;;             :n "t" #'mu4e-view-mark-subthread
-;;             :n "T" #'mu4e-view-mark-thread
-
-;;             :n "d" #'mu4e-view-mark-for-trash
-;;             :n "r" #'mu4e-view-mark-for-refile
-;;             :n "m" #'mu4e-view-mark-for-move))
-
-;;         (:map mu4e~update-mail-mode-map
-;;           :n "q" #'mu4e-interrupt-update-mail)))
