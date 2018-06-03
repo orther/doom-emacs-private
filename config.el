@@ -156,3 +156,10 @@
 ;; The standard unicode characters are usually misaligned depending on the font.
 ;; This bugs me. Personally, markdown #-marks for headlines are more elegant.
 ;; (setq org-bullets-bullet-list '("#"))
+
+
+;; **
+;; ** Writing
+;; **
+
+(setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
