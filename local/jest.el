@@ -66,5 +66,3 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
   (advice-add 'mocha-generate-command
               :override 'mocha-generate-command--jest-command))
-
-

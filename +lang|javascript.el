@@ -1,5 +1,10 @@
 ;;; ~/.doom.d/+lang|javascript.el -*- lexical-binding: t; -*-
 
+(after! flycheck
+  (flycheck-jest-setup)
+  (flycheck-add-mode 'jest 'js2-mode))
+
+;; TODO replace this by setting up flycheck-jest to create coverage reports
 ;; ** Jest (mocha.el)
 (load! "local/jest")
 (after! mocha

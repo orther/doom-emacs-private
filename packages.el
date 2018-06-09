@@ -4,7 +4,8 @@
 (package! emacs-snippets :disable t)
 
 ;; testing
-(package! mocha)
 (package! coverlay)
+(package! flycheck-jest)
+(package! mocha)
 
 (package! orgit)
