@@ -1,9 +1,5 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; Set shell to bash to protect against problems caused by fish shell
-(setq-default explicit-shell-file-name (executable-find "bash"))
-(setq-default shell-file-name (executable-find "bash"))
-
 (doom! :feature
        debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
@@ -19,8 +15,6 @@
         +childframe)     ; use childframes for error popups (Emacs 26+ only)
        version-control   ; remember, remember that commit in November
        workspaces        ; tab emulation, persistence & separate workspaces
-       ;search          ; advanced searching functionality (copied from bmacs)
-
 
        :completion
        (company          ; the ultimate code completion backend
@@ -103,6 +97,4 @@
 
        :config
        (default +bindings +snippets +evil-commands)
-
-       ;; :private personal
-       )
+       literate)
