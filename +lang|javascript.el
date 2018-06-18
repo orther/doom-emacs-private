@@ -8,9 +8,12 @@
 ;; ** Jest (mocha.el)
 (load! "local/jest")
 (after! mocha
-  (set! :popup "^\\*mocha tests*"
-    '((size . 80) (side . right))
-    '((select . nil) (quit . nil) (autokill . t))))
+  (set-popup-rule! "^\\*mocha tests*"
+                   :side 'right
+                   :size 80
+                   :select nil
+                   :quit nil
+                   :ttl t))
 
 ;; ** coverlay - code coverage overlays
 (setq coverlay:untested-line-background-color (doom-blend 'red 'bg 0.3)

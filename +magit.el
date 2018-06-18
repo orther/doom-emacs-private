@@ -27,7 +27,7 @@
         magit-repository-directories '("~/dev/" "~/work/dev/"))
 
   (advice-add 'magit-list-repositories :override #'*magit-list-repositories)
-  (set! :evil-state 'magit-repolist-mode 'normal)
+  (set-evil-initial-state! 'magit-repolist-mode 'normal)
   (map! :map magit-repolist-mode-map
         :nmvo doom-leader-key nil
         :map with-editor-mode-map
@@ -41,15 +41,11 @@
   (map! :map magit-mode-map
         [remap quit-window] #'+magit/quit
         :n "\\" nil)
-  (set! :popup "^\\(?: ?\\*\\)?magit.*: "
-    '((slot . -1) (side . right) (size . 80))
-    '((select . t) (quit . nil)))
-  (set! :popup "^\\*magit.*popup\\*"
-    '((slot . 0) (side . right))
-    '((select . t)))
-  (set! :popup "^\\(?: ?\\*\\)?magit-revision:.*"
-    '((slot . 2) (side . right) (window-height . 0.6))
-    '((select . t)))
-  (set! :popup "^\\(?: ?\\*\\)?magit-diff:.*"
-    '((slot . 2) (side . right) (window-height . 0.6))
-    '((select . nil))))
+  (set-popup-rule! "^\\(?: ?\\*\\)?magit.*: "
+    :slot -1 :side 'right :size 80 :select t :quit nil)
+  (set-popup-rule! "^\\*magit.*popup\\*"
+    :slot 0 :side 'right :select t)
+  (set-popup-rule! "^\\(?: ?\\*\\)?magit-revision:.*"
+    :slot 2 :side 'right :height 0.6 :select t)
+  (set-popup-rule! "^\\(?: ?\\*\\)?magit-diff:.*"
+    :slot 2 :side 'right :height 0.6 :select nil))
