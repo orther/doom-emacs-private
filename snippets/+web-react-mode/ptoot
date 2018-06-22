@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: create-react-prop-type-shape
+# key: ptsh
+# --
+PropTypes.shape({$0})
