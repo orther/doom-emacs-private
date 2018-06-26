@@ -10,3 +10,9 @@ And use this `doom!` block in `~/.emacs.d/init.el`
 
 (doom! :config (private +xdg))
 ```
+
+## Install EmacsClient.app for org-protocol
+
+   ```sh
+   brew cask install emacsclient
+   ```
