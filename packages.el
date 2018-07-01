@@ -2,9 +2,9 @@
 ;;; packages.el
 
 ;; testing
-(package! coverlay)
-(package! flycheck-jest)
-(package! mocha)
+;; (package! coverlay)
+;; (package! flycheck-jest)
+;; (package! mocha)
 
 (package! orgit)
 
@@ -27,7 +27,7 @@
 ;; (package! cheatsheet)
 ;; (package! x-path-walker)
 ;; (package! outline-magic)
-(package! highlight-blocks)
+;; (package! highlight-blocks)
 ;; (package! ivy-yasnippet :recipe (:fetcher github :repo "mkcms/ivy-yasnippet"))
 
 ;; (package! ob-javascript)

@@ -1,7 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (doom! :feature
-       debugger          ; FIXME stepping through code, to help you add bugs
+       ;; debugger          ; FIXME stepping through code, to help you add bugs
        eval              ; run code, run (also, repls)
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
@@ -20,6 +20,7 @@
         +auto            ; as-you-type code completion
         +childframe)     ; a nicer company UI (Emacs 26+ only)
        (ivy              ; a search engine for love and life
+        +fuzzy           ; enable fuzzy search backend for ivy
         +childframe)     ; uses childframes for popups (Emacs 26+ only)
 
        :ui
@@ -64,7 +65,7 @@
        rgb               ; creating color strings
       ;tmux              ; an API for interacting with tmux
        upload            ; map local to remote projects via ssh/ftp
-      ;wakatime
+       wakatime
 
        :lang
        data              ; config/data formats
