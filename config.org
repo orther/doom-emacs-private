@@ -116,7 +116,7 @@ Make titlebar and frame dark
 
 (def-package! plain-org-wiki
   :config
-  (setq pow-directory "~/org/brain"))
+  (setq pow-directory "~/Dropbox/org-files/brain"))
 #+END_SRC
 * Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -1201,6 +1201,18 @@ Inherit major mode from latest active buffer
 #+END_SRC
 * Languages
 ** JavaScript
+*** JS Doc
+#+BEGIN_SRC emacs-lisp
+(def-package! js-doc
+  :bind (:map js2-mode-map
+           ("C-c i" . js-doc-insert-function-doc)
+           ("@" . js-doc-insert-tag))
+  :config
+  (setq js-doc-mail-address "brandon@uptrend.tech"
+         js-doc-author (format "Brandon Orther <%s>" js-doc-mail-address)
+         js-doc-url "uptrend.tech"
+         js-doc-license "MIT License"))
+#+END_SRC
 *** Flycheck Jest
 #+BEGIN_SRC emacs-lisp
 ;; (after! flycheck

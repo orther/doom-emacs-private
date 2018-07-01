@@ -5,7 +5,7 @@
 ;; (package! coverlay)
 ;; (package! flycheck-jest)
 ;; (package! mocha)
-
+(package! js-doc)
 (package! orgit)
 
 ;; (package! fish-mode)
