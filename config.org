@@ -1167,7 +1167,10 @@ Inherit major mode from latest active buffer
 ;;         magit-display-file-buffer-function #'switch-to-buffer-other-window))
 
 (after! magithub
-  (setq magithub-clone-default-directory "~/work/code/"))
+  (setq magithub-clone-default-directory "~/work/code/")
+
+  (set-popup-rule! "^\\(?:\\*magithub-dash\\)" 
+    :slot -2 :side 'right :size 0.5 :select t :quit 'current))
 
 (after! magit
   (magit-wip-after-save-mode 1)
@@ -1190,10 +1193,12 @@ Inherit major mode from latest active buffer
   (map! :map magit-mode-map
         [remap quit-window] #'+magit/quit
         :n "\\" nil)
-  (set-popup-rule! "^\\(?: ?\\*\\)?magit.*: "
-    :slot -1 :side 'left :size .5 :select t :quit 'other)
+  (set-popup-rule! "^\\(?:\\*magit\\|magit:\\)" 
+    :slot -1 :side 'left :size .5 :select t :quit nil)
+  ;; (set-popup-rule! "^\\(?: ?\\*\\)?magit.*: "
+  ;;   :slot -1 :side 'left :size .5 :select t :quit nil)
   (set-popup-rule! "^\\*magit.*popup\\*"
-    :slot 0 :side 'left :select t  :quit 'other)
+    :slot 0 :side 'left :select t  :quit nil)
   (set-popup-rule! "^\\(?: ?\\*\\)?magit-revision:.*"
     :slot 2 :side 'right :height 0.6 :select t :quit 'other)
   (set-popup-rule! "^\\(?: ?\\*\\)?magit-diff:.*"
