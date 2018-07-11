@@ -52,10 +52,14 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 #+END_SRC
 ** UI
 *** macOS Native Window Styling
-Make titlebar and frame dark
 #+BEGIN_SRC emacs-lisp
+;; Make titlebar and frame dark
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
+
+;; Remove scroll bars
+(add-to-list 'default-frame-alist
+             '(vertical-scroll-bars . nil))
 #+END_SRC
 *** Start maximized
 #+BEGIN_SRC emacs-lisp
