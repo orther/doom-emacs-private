@@ -2,11 +2,13 @@
 ;;; packages.el
 
 ;; testing
-;; (package! coverlay)
+(package! coverlay)
 ;; (package! flycheck-jest)
-;; (package! mocha)
+(package! mocha)
 (package! js-doc)
 (package! orgit)
+
+(package! magit-todos)
 
 ;; (package! fish-mode)
 ;; (package! find-file-in-project)
@@ -24,7 +26,7 @@
 ;; (package! ox-hugo)
 ;; (package! powerthesaurus :recipe (:fetcher github :repo "SavchenkoValeriy/emacs-powerthesaurus"))
 ;; (package! qml-mode)
-;; (package! cheatsheet)
+(package! cheatsheet)
 ;; (package! x-path-walker)
 ;; (package! outline-magic)
 ;; (package! highlight-blocks)
@@ -32,7 +34,7 @@
 
 ;; (package! ob-javascript)
 (package! ob-javascript :recipe (:fetcher github :repo "zweifisch/ob-javascript" :files ("*")))
-;; (package! ob-async :recipe (:fetcher github :repo "astahlman/ob-async" ))
+(package! ob-async :recipe (:fetcher github :repo "astahlman/ob-async" ))
 ;; (package! ereader :recipe (:fetcher url :url "https://raw.githubusercontent.com/bddean/emacs-ereader/master/ereader.el"))
 ;; (package! org-ebook :recipe (:fetcher url :url "https://raw.githubusercontent.com/bddean/emacs-ereader/master/org-ebook.el"))
 ;; (package! sdcv :recipe (:fetcher url :url "https://raw.githubusercontent.com/stardiviner/sdcv.el/master/sdcv.el"))

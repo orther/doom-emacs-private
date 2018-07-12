@@ -68,9 +68,8 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 #+END_SRC
 *** Fonts
 #+BEGIN_SRC emacs-lisp
+(setq ns-use-thin-smoothing t)
 (setq doom-font (font-spec :family "Fira Mono" :size 14)
-      ;; doom-variable-pitch-font (font-spec :family "Fira Sans" :size 14)
-      ;; doom-unicode-font (font-spec :family "DejaVu Sans Mono" :size 14)
       doom-big-font (font-spec :family "Fira Mono" :size 22))
 #+END_SRC
 *** Modeline
@@ -99,18 +98,6 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
         '(+ivy/switch-workspace-buffer))
   :config (all-the-icons-ivy-setup))
 #+END_SRC
-*** Neotree
-#+BEGIN_SRC emacs-lisp
-;; (after! neotree
-;;      When switching to a file in the current project, expand the directory
-;;      tree to the new file buffer
-;;      (add-hook! 'find-file-hook
-;;        (if (and (buffer-file-name) (neo-global--window-exists-p))
-;;            ;; And only if the file is a child of the current neotree root
-;;            (if (neo-global--file-in-root-p (buffer-file-name))
-;;                ;; We need to trigger neotree-find then switch back to the buffer we just opened
-;;                (save-current-buffer (neotree-find))))))
-#+END_SRC
 ** Def Packages
 #+BEGIN_SRC emacs-lisp
 (def-package! highlight-blocks
@@ -118,9 +105,9 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 
 (def-package! link-hint)
 
-(def-package! plain-org-wiki
-  :config
-  (setq pow-directory "~/Dropbox/org-files/brain"))
+;; (def-package! plain-org-wiki
+;;   :config
+;;   (setq pow-directory "~/Dropbox/org-files/brain"))
 #+END_SRC
 * Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -248,12 +235,12 @@ Edit i.org
 ;;          (kill-buffer (get-file-buffer x))))
 ;;      files)))
 ;;;###autoload
-(defun aj/return-short-project-name ()
-  "Returns short project name - based on projectile"
-  (format "Project: %s"
-          (replace-regexp-in-string "/proj/\\(.*?\\)/.*"
-                                    "\\1"
-                                    (projectile-project-name))))
+;; (defun aj/return-short-project-name ()
+;;   "Returns short project name - based on projectile"
+;;   (format "Project: %s"
+;;           (replace-regexp-in-string "/proj/\\(.*?\\)/.*"
+;;                                     "\\1"
+;;                                     (projectile-project-name))))
 ;; ;;;###autoload
 ;; (defun message-off-advice (oldfun &rest args)
 ;;   "Quiet down messages in adviced OLDFUN."
@@ -337,28 +324,28 @@ Edit i.org
 ;;          (my/refile file headline arg))))
 ;;     (when kill-buffer (kill-buffer base))))
 ;;;###autoload
-(defun aj/my-org-faces ()
-  "set org faces how I like them"
-  (set-face-attribute     'org-level-1 nil                :height 1.0 :background nil)
-  (set-face-attribute     'org-level-2 nil                :height 1.0)
-  (set-face-attribute     'org-level-3 nil                :height 1.0)
-  (set-face-attribute     'org-level-4 nil                :height 1.0)
-  (set-face-attribute     'org-agenda-date nil            :height 1.0)
-  (set-face-attribute     'org-agenda-date-today    nil   :height 1.0)
-  (set-face-attribute     'org-agenda-date-weekend  nil   :height 1.0)
-  (set-face-attribute     'org-agenda-structure     nil   :height 1.0)
-  (setq org-fontify-whole-heading-line nil)
-  )
-;;;###autoload
-(defun aj/projectile-add-known-project-and-save (project-root)
-  "Add PROJECT-ROOT to the list of known projects and save it to the list of known projects."
-  (interactive (list (read-directory-name "Add to known projects: ")))
-  (unless (projectile-ignored-project-p project-root)
-    (setq projectile-known-projects
-          (delete-dups
-           (cons (file-name-as-directory (abbreviate-file-name project-root))
-                 projectile-known-projects))))
-  (projectile-save-known-projects))
+;; (defun aj/my-org-faces ()
+;;   "set org faces how I like them"
+;;   (set-face-attribute     'org-level-1 nil                :height 1.0 :background nil)
+;;   (set-face-attribute     'org-level-2 nil                :height 1.0)
+;;   (set-face-attribute     'org-level-3 nil                :height 1.0)
+;;   (set-face-attribute     'org-level-4 nil                :height 1.0)
+;;   (set-face-attribute     'org-agenda-date nil            :height 1.0)
+;;   (set-face-attribute     'org-agenda-date-today    nil   :height 1.0)
+;;   (set-face-attribute     'org-agenda-date-weekend  nil   :height 1.0)
+;;   (set-face-attribute     'org-agenda-structure     nil   :height 1.0)
+;;   (setq org-fontify-whole-heading-line nil)
+;;   )
+;; ;;;###autoload
+;; (defun aj/projectile-add-known-project-and-save (project-root)
+;;   "Add PROJECT-ROOT to the list of known projects and save it to the list of known projects."
+;;   (interactive (list (read-directory-name "Add to known projects: ")))
+;;   (unless (projectile-ignored-project-p project-root)
+;;     (setq projectile-known-projects
+;;           (delete-dups
+;;            (cons (file-name-as-directory (abbreviate-file-name project-root))
+;;                  projectile-known-projects))))
+;;   (projectile-save-known-projects))
 #+END_SRC
 *** Interactive
 #+BEGIN_SRC emacs-lisp
@@ -703,35 +690,35 @@ Edit i.org
 ;;                 (t "???")))
 ;;     (bury-buffer)))
 ;;;###autoload
-(defun aj/return-project-org-file ()
-  "Returns project org file"
-  (interactive)
-  (list (concat (projectile-project-root) "README.org")))
-;;;###autoload
-(defun aj/return-plain-string-project-org-file ()
-  "Returns project org file"
-  (interactive)
-  (concat (projectile-project-root) "README.org"))
-;;;###autoload
-(defun aj/find-and-open-org-projectile-file ()
-  "Find and open org-projectile file"
-  (interactive)
-  (find-file (concat (projectile-project-root) "README.org"))
-  (goto-char (org-find-exact-headline-in-buffer "TASKS"))
-  )
-;;;###autoload
-(defun aj/goto-current-org-projectile-file ()
-  "Go to the current org-projectile-file"
-  (interactive)
-  (save-excursion
-    (find-file (concat (projectile-project-root) "README.org"))
-    (counsel-org-goto)))
-;;;###autoload
-(defun aj/org-projectile-capture-for-current-project ()
-  "Call standard capture template for current org-projectile file"
-  (interactive)
-  (org-capture nil "h")
-  )
+;; (defun aj/return-project-org-file ()
+;;   "Returns project org file"
+;;   (interactive)
+;;   (list (concat (projectile-project-root) "README.org")))
+;; ;;;###autoload
+;; (defun aj/return-plain-string-project-org-file ()
+;;   "Returns project org file"
+;;   (interactive)
+;;   (concat (projectile-project-root) "README.org"))
+;; ;;;###autoload
+;; (defun aj/find-and-open-org-projectile-file ()
+;;   "Find and open org-projectile file"
+;;   (interactive)
+;;   (find-file (concat (projectile-project-root) "README.org"))
+;;   (goto-char (org-find-exact-headline-in-buffer "TASKS"))
+;;   )
+;; ;;;###autoload
+;; (defun aj/goto-current-org-projectile-file ()
+;;   "Go to the current org-projectile-file"
+;;   (interactive)
+;;   (save-excursion
+;;     (find-file (concat (projectile-project-root) "README.org"))
+;;     (counsel-org-goto)))
+;; ;;;###autoload
+;; (defun aj/org-projectile-capture-for-current-project ()
+;;   "Call standard capture template for current org-projectile file"
+;;   (interactive)
+;;   (org-capture nil "h")
+;;   )
 ;; ;;;###autoload
 ;; (defun aj/org-brain-per-project ()
 ;;   "Opens org-brain-visualize for current projectile project."
@@ -1153,22 +1140,13 @@ Add personal snippets to yasnippet
 ** Scratch Buffer
 Inherit major mode from latest active buffer
 #+BEGIN_SRC emacs-lisp
-;; (setq doom-scratch-buffer-major-mode t)
+(setq doom-scratch-buffer-major-mode t)
 #+END_SRC
 * Tools
 ** Magit
 #+BEGIN_SRC emacs-lisp
 (setq +magit-hub-features t ;; I want the PR/issue stuff too!
       +magit-hub-enable-by-default t)  ;; And I want it on by default!
-
-;; (after! magit
-;;   (magit-wip-after-save-mode t)
-;;   (magit-wip-after-apply-mode t)
-;;   (setq magit-save-repository-buffers 'dontask
-;;         magit-repository-directories '(("~/dev/" . 2)
-;;                                        ("~/work/code/" . 0))
-;;         magit-popup-display-buffer-action nil ;; Not sure why this is here, wonder what it does
-;;         magit-display-file-buffer-function #'switch-to-buffer-other-window))
 
 (after! magit
   (magit-wip-after-save-mode 1)
@@ -1177,37 +1155,12 @@ Inherit major mode from latest active buffer
         magit-repository-directories '("~/dev/" "~/work/code/"))
 
   (advice-add 'magit-list-repositories :override #'*magit-list-repositories)
-  (set-evil-initial-state! 'magit-repolist-mode 'normal)
-  ;; (map! :map magit-repolist-mode-map
-  ;;       :nmvo doom-leader-key nil
-  ;;       :map with-editor-mode-map
-  ;;       (:localleader
-  ;;         :desc "Finish" :n "," #'with-editor-finish
-  ;;         :desc "Abort" :n "k" #'with-editor-cancel))
-
-  ;; (setq magit-bury-buffer-function #'+magit/quit
-  ;;       magit-popup-display-buffer-action nil
-  ;;       magit-display-file-buffer-function 'switch-to-buffer-other-window)
-  ;; (map! :map magit-mode-map
-  ;;       [remap quit-window] #'+magit/quit
-  ;;       :n "\\" nil)
-  ;; (set-popup-rule! "^\\(?:\\*magit\\|magit:\\)" 
-  ;;   :slot -1 :side 'left :size .5 :select t :quit nil)
-  ;; (set-popup-rule! "^\\(?: ?\\*\\)?magit.*: "
-  ;;   :slot -1 :side 'left :size .5 :select t :quit nil)
-  ;; (set-popup-rule! "^\\*magit.*popup\\*"
-  ;;   :slot 0 :side 'left :select t  :quit nil)
-  ;; (set-popup-rule! "^\\(?: ?\\*\\)?magit-revision:.*"
-  ;;   :slot 2 :side 'right :height 0.6 :select t :quit 'other)
-  ;; (set-popup-rule! "^\\(?: ?\\*\\)?magit-diff:.*"
-  ;;   :slot 2 :side 'right :height 0.6 :select nil :quit 'other)
-  )
+  (set-evil-initial-state! 'magit-repolist-mode 'normal))
 
 (after! magithub
-  (setq magithub-clone-default-directory "~/work/code/"
-  ;; (set-popup-rule! "^\\(?:\\*magithub-dash\\)" 
-  ;;   :vslot 0 :side 'right :size 0.5 :select t :quit 'current)
-  ))
+  (setq magithub-clone-default-directory "~/work/code/"))
+
+(def-package! magit-todos)
 #+END_SRC
 * Languages
 ** JavaScript
@@ -1223,6 +1176,14 @@ Inherit major mode from latest active buffer
          js-doc-url "uptrend.tech"
          js-doc-license "MIT License"))
 #+END_SRC
+*** Tide
+#+BEGIN_SRC emacs-lisp
+(after! tide
+  (setq tide-completion-detailed nil
+        tide-always-show-documentation nil))
+
+
+#+END_SRC
 *** Flycheck Jest
 #+BEGIN_SRC emacs-lisp
 ;; (after! flycheck
@@ -1234,274 +1195,284 @@ Inherit major mode from latest active buffer
 (setq coverlay:untested-line-background-color (doom-blend 'red 'bg 0.3)
       coverlay:tested-line-background-color (doom-blend 'green 'bg 0.0))
 #+END_SRC
-** Org Mode
+*** Jest (Mocha)
 #+BEGIN_SRC emacs-lisp
-(setq 
-   ;; +org-dir (expand-file-name "~/work/org")
-   +org-dir (expand-file-name "~/Dropbox/org-files/")
-   +org-attach-dir ".attach/"
-   org-export-directory "export/"
-   org-crypt-tag-matcher "+crypt-nocrypt"
-      )
+(setq mocha-which-node "/Users/brandon/.nvm/versions/node/v10.5.0/bin/node")
+(load! "local/jest")
+(after! mocha
+  (set-popup-rule! "^\\*mocha tests*"
+                   :side 'right
+                   :size 80
+                   :select nil
+                   :quit nil
+                   :ttl t))
 
-;; ;; local elisp files which refused to be installed with quelpa
-;; (after! org-protocol  (load! "local/org-protocol-capture-html/org-protocol-capture-html.el"))
+* Org Mode
+#+BEGIN_SRC emacs-lisp
+;; (setq
+;; +org-dir (expand-file-name "~/Dropbox/org-files/")
+;;    +org-attach-dir ".attach/"
+;;    org-export-directory "export/"
+;;    org-crypt-tag-matcher "+crypt-nocrypt")
+;; 
+;; ;; ;; local elisp files which refused to be installed with quelpa
+;; ;; (after! org-protocol  (load! "local/org-protocol-capture-html/org-protocol-capture-html.el"))
+;; 
+;; ;; ;; load additional org-modules
+;; ;; (add-hook 'org-load-hook '(lambda () (setq org-modules (append '(org-man org-eww org-protocol org-habit) org-modules))))
+;; 
+;; (after! org
+;;   (add-hook 'org-capture-mode-hook 'flyspell-mode)
+;;   ;; clock persistence
+;;   (org-clock-persistence-insinuate)
+;; 
+;;   ;; open all pdf links with org-pfdview
+;;   (add-to-list 'org-file-apps
+;;                '("\\.pdf\\'" . (lambda (file link)
+;;                                  (org-pdfview-open link))))
+;;   (quiet!
+;;    ;; register pdfview link type (copied from org-pdfview.el so I can lazy load)
+;;    (org-link-set-parameters "pdfview"
+;;                             :follow #'org-pdfview-open
+;;                             :complete #'org-pdfview-complete-link
+;;                             :store #'org-pdfview-store-link)
+;;    (org-add-link-type "pdfview" 'org-pdfview-open)
+;;    (add-hook 'org-store-link-functions 'org-pdfview-store-link)
+;; 
+;;    ;; ;; ...and same thing for org-ebook
+;;    ;; (org-link-set-parameters "ebook"
+;;    ;;                          :follow #'org-ebook-open
+;;    ;;                          :store #'org-ebook-store-link)
+;;    ;; (org-add-link-type "ebook" 'org-ebook-open)
+;;    ;; (add-hook 'org-store-link-functions 'org-ebook-store-link)
+;;    )
+;; 
+;; 
+;; ;;   (setq
+;; ;;    org-capture-templates '(("p" "Protocol" entry (file "~/Dropbox/org-files/BOOKMARKS.org")
+;; ;;                             "**** [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] :link:quote:\n%u\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n"
+;; ;;                             :immediate-finish t :prepend t)
+;; ;; 
+;; ;;                            ("L" "Protocol Link" entry (file "~/Dropbox/org-files/BOOKMARKS.org")
+;; ;;                             "**** [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] :link:\n%u"
+;; ;;                             :immediate-finish t :prepend t)
+;; ;; 
+;; ;;                            ("w" "Website" entry (file "~/Dropbox/org-files/WEBSITES.org")
+;; ;;                             "* %c :website:\n\n%U %?\n\n%:initial" :immediate-finish t)
+;; ;; 
+;; ;;                            ("e" "journal Entry" entry (file+olp+datetree "~/Dropbox/org-files/JOURNAL.org")
+;; ;;                             "**** %?" :tree-type week)
+;; ;; 
+;; ;;                            ("t" "task" entry (file+headline "~/Dropbox/org-files/GTD.org" "TASKS")
+;; ;;                             "* [ ] %?" :prepend t)
+;; ;; 
+;; ;;                            ("P" "Projectile" entry
+;; ;;                             (function aj/find-and-open-org-projectile-file)
+;; ;;                             "* [ ] %?" :prepend t)
+;; ;; 
+;; ;;                            )
+;; 
+;; ;;    org-agenda-custom-commands
+;; ;;    ' (("P" "Projects" ((tags "+LEVEL=2+CATEGORY=\"PROJECTS\"
+;; ;;                               |+LEVEL=3+CATEGORY=\"PROJECTS\"
+;; ;;                               |+LEVEL=4+CATEGORY=\"PROJECTS\"/!+STARTED|+NEXT"))
+;; ;;        ((org-agenda-overriding-header "Projects Overview")
+;; ;;         (org-agenda-files '("~/Dropbox/org-files/GTD.org"))
+;; ;;         (org-agenda-dim-blocked-tasks nil)
+;; ;;         ))
+;; ;; 
+;; ;;       ("C" "Current project" ((tags "+LEVEL=1+CATEGORY=\"TASKS\"
+;; ;;                                     |+LEVEL=2+CATEGORY=\"TASKS\""))
+;; ;;        ((org-agenda-files (aj/return-project-org-file))
+;; ;;         (org-agenda-overriding-header (aj/return-short-project-name))
+;; ;;         ))
+;; ;;       ("T" "Tasks" ((tags "+LEVEL=1+CATEGORY=\"TASKS\"
+;; ;;                           |+LEVEL=2+CATEGORY=\"TASKS\""))
+;; ;;        ((org-agenda-overriding-header "Tasks Overview")
+;; ;;         (org-agenda-files '("~/Dropbox/org-files/GTD.org"))
+;; ;;         ))
+;; ;;       )
+;; ;;    org-agenda-files '("~/Dropbox/org-files/GTD.org")
+;; ;;    org-agenda-prefix-format '((agenda  . "  %-12s%6t ")
+;; ;;                               (timeline  . "%s ")
+;; ;;                               (todo  . "     Effort: %6e  ")
+;; ;;                               (tags  . "%l")
+;; ;;                               (search . "%l"))
+;; ;;    org-agenda-todo-list-sublevels t
+;; ;;    org-agenda-log-mode-items '(closed clock state)
+;; ;;    org-agenda-span 2
+;; ;;    org-agenda-start-on-weekday nil
+;; ;;    org-agenda-start-with-log-mode nil
+;; ;;    org-agenda-start-day "1d"
+;; ;;    org-agenda-compact-blocks t
+;; ;;    org-agenda-dim-blocked-tasks 'invisible
+;; ;;    org-tags-match-list-sublevels 'indented
+;; ;;    org-agenda-tags-column 68
+;; ;;    org-agenda-category-icon-alist
+;; ;;    `(("GTD" ,(list (all-the-icons-faicon "cogs")) nil nil :ascent center))
+;; ;;    org-show-context-detail '((agenda .minimal)
+;; ;;                              (bookmark-jump . minimal)
+;; ;;                              (isearch . lineage)
+;; ;;                              (default . minimal)
+;; ;;                              )
+;; ;;    org-link-frame-setup '((vm . vm-visit-folder-other-frame)
+;; ;;                           (vm-imap . vm-visit-imap-folder-other-frame)
+;; ;;                           (gnus . org-gnus-no-new-news)
+;; ;;                           (file . find-file-other-window)
+;; ;;                           (wl . wl-other-frame))
+;;    org-todo-keywords
+;;    ;;           todo     ongoing  hold         zap      done
+;;    '((sequence "[ ](t)" "[-](o)" "[!](h)" "|" "[✘](z)" "[✔](d)")
+;;      (sequnece "STARTED(s)" "|" "FINISHED(f)")
+;;      (sequence "MAYBE(M)" "SOMEDAY(S)" "TODO(T)" "NEXT(n)" "WAITING(w)" "LATER(l)" "|" "DONE(D)" "CANCELLED(c)"))
+;;    org-todo-keyword-faces '(("NEXT" . "#98be65") ("WAITING" . "#c678dd") ("TODO" . "#ECBE7B") ("STARTED" . "#4db5bd"))
+;;    org-enforce-todo-dependencies t
+;;    org-enforce-todo-checkbox-dependencies nil
+;;    org-provide-todo-statistics t
+;;    org-checkbox-hierarchical-statistics nil
+;;    org-hierarchical-todo-statistics nil
+;; 
+;; ;;    org-startup-with-inline-images t
+;; ;;    org-hide-emphasis-markers nil
+;; ;;    org-fontify-whole-heading-line nil
+;; ;;    org-src-fontify-natively t
+;; 
+;;    org-refile-targets '((org-agenda-files :maxlevel . 5))
+;;    org-refile-use-outline-path 'file
+;;    org-outline-path-complete-in-steps nil
+;; 
+;;    org-id-track-globally t
+;;    org-id-locations-file (concat +org-dir ".org-ids-locations")
+;;    org-use-property-inheritance t
+;; 
+;;    org-log-done 'time
+;;    org-log-redeadline 'time
+;;    org-log-reschedule 'time
+;;    org-log-into-drawer "LOGBOOK"
+;; 
+;;    org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA"
+;;    org-drawers (quote ("PROPERTIES" "LOGBOOK"))
+;; 
+;;    org-clock-auto-clock-resolution (quote when-no-clock-is-running)
+;;    org-clock-report-include-clocking-task t
+;;    org-clock-out-remove-zero-time-clocks t
+;;    org-clock-persist-query-resume nil
+;;    org-clock-history-length 23
+;;    org-clock-out-when-done t
+;;    org-clock-into-drawer t
+;;    org-clock-in-resume t
+;;    org-clock-persist t
+;; 
+;;    evil-org-key-theme '(textobjects insert navigation additional shift heading)
+;; 
+;;    )
+;; 
 
-;; load additional org-modules
-(add-hook 'org-load-hook '(lambda () (setq org-modules (append '(org-man org-eww org-protocol org-habit) org-modules))))
-
-(after! org
-  (add-hook 'org-capture-mode-hook 'flyspell-mode)
-  ;; clock persistence
-  (org-clock-persistence-insinuate)
-
-  ;; open all pdf links with org-pfdview
-  (add-to-list 'org-file-apps
-               '("\\.pdf\\'" . (lambda (file link)
-                                 (org-pdfview-open link))))
-  (quiet!
-   ;; register pdfview link type (copied from org-pdfview.el so I can lazy load)
-   (org-link-set-parameters "pdfview"
-                            :follow #'org-pdfview-open
-                            :complete #'org-pdfview-complete-link
-                            :store #'org-pdfview-store-link)
-   (org-add-link-type "pdfview" 'org-pdfview-open)
-   (add-hook 'org-store-link-functions 'org-pdfview-store-link)
-
-   ;; ;; ...and same thing for org-ebook
-   ;; (org-link-set-parameters "ebook"
-   ;;                          :follow #'org-ebook-open
-   ;;                          :store #'org-ebook-store-link)
-   ;; (org-add-link-type "ebook" 'org-ebook-open)
-   ;; (add-hook 'org-store-link-functions 'org-ebook-store-link)
-   )
-
-
-  (setq
-   org-capture-templates '(("p" "Protocol" entry (file "~/Dropbox/org-files/BOOKMARKS.org")
-                            "**** [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] :link:quote:\n%u\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n"
-                            :immediate-finish t :prepend t)
-
-                           ("L" "Protocol Link" entry (file "~/Dropbox/org-files/BOOKMARKS.org")
-                            "**** [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]] :link:\n%u"
-                            :immediate-finish t :prepend t)
-
-                           ("w" "Website" entry (file "~/Dropbox/org-files/WEBSITES.org")
-                            "* %c :website:\n\n%U %?\n\n%:initial" :immediate-finish t)
-
-                           ("e" "journal Entry" entry (file+olp+datetree "~/Dropbox/org-files/JOURNAL.org")
-                            "**** %?" :tree-type week)
-
-                           ("t" "task" entry (file+headline "~/Dropbox/org-files/GTD.org" "TASKS")
-                            "* [ ] %?" :prepend t)
-
-                           ("P" "Projectile" entry
-                            (function aj/find-and-open-org-projectile-file)
-                            "* [ ] %?" :prepend t)
-
-                           )
-
-   org-agenda-custom-commands
-   ' (("P" "Projects" ((tags "+LEVEL=2+CATEGORY=\"PROJECTS\"
-                              |+LEVEL=3+CATEGORY=\"PROJECTS\"
-                              |+LEVEL=4+CATEGORY=\"PROJECTS\"/!+STARTED|+NEXT"))
-       ((org-agenda-overriding-header "Projects Overview")
-        (org-agenda-files '("~/Dropbox/org-files/GTD.org"))
-        (org-agenda-dim-blocked-tasks nil)
-        ))
-
-      ("C" "Current project" ((tags "+LEVEL=1+CATEGORY=\"TASKS\"
-                                    |+LEVEL=2+CATEGORY=\"TASKS\""))
-       ((org-agenda-files (aj/return-project-org-file))
-        (org-agenda-overriding-header (aj/return-short-project-name))
-        ))
-      ("T" "Tasks" ((tags "+LEVEL=1+CATEGORY=\"TASKS\"
-                          |+LEVEL=2+CATEGORY=\"TASKS\""))
-       ((org-agenda-overriding-header "Tasks Overview")
-        (org-agenda-files '("~/Dropbox/org-files/GTD.org"))
-        ))
-      )
-   org-agenda-files '("~/Dropbox/org-files/GTD.org")
-   org-agenda-prefix-format '((agenda  . "  %-12s%6t ")
-                              (timeline  . "%s ")
-                              (todo  . "     Effort: %6e  ")
-                              (tags  . "%l")
-                              (search . "%l"))
-   org-agenda-todo-list-sublevels t
-   org-agenda-log-mode-items '(closed clock state)
-   org-agenda-span 2
-   org-agenda-start-on-weekday nil
-   org-agenda-start-with-log-mode nil
-   org-agenda-start-day "1d"
-   org-agenda-compact-blocks t
-   org-agenda-dim-blocked-tasks 'invisible
-   org-tags-match-list-sublevels 'indented
-   org-agenda-tags-column 68
-   org-agenda-category-icon-alist
-   `(("GTD" ,(list (all-the-icons-faicon "cogs")) nil nil :ascent center))
-   org-show-context-detail '((agenda .minimal)
-                             (bookmark-jump . minimal)
-                             (isearch . lineage)
-                             (default . minimal)
-                             )
-   org-link-frame-setup '((vm . vm-visit-folder-other-frame)
-                          (vm-imap . vm-visit-imap-folder-other-frame)
-                          (gnus . org-gnus-no-new-news)
-                          (file . find-file-other-window)
-                          (wl . wl-other-frame))
-   org-todo-keywords
-   ;;           todo     ongoing  hold         zap      done
-   '((sequence "[ ](t)" "[-](o)" "[!](h)" "|" "[✘](z)" "[✔](d)")
-     (sequnece "STARTED(s)" "|" "FINISHED(f)")
-     (sequence "MAYBE(M)" "SOMEDAY(S)" "TODO(T)" "NEXT(n)" "WAITING(w)" "LATER(l)" "|" "DONE(D)" "CANCELLED(c)"))
-   org-todo-keyword-faces '(("NEXT" . "#98be65") ("WAITING" . "#c678dd") ("TODO" . "#ECBE7B") ("STARTED" . "#4db5bd"))
-   org-enforce-todo-dependencies t
-   org-enforce-todo-checkbox-dependencies nil
-   org-provide-todo-statistics t
-   org-checkbox-hierarchical-statistics nil
-   org-hierarchical-todo-statistics nil
-
-   org-startup-with-inline-images t
-   org-hide-emphasis-markers nil
-   org-fontify-whole-heading-line nil
-   org-src-fontify-natively t
-
-   org-refile-targets '((org-agenda-files :maxlevel . 5))
-   org-refile-use-outline-path 'file
-   org-outline-path-complete-in-steps nil
-
-   org-id-track-globally t
-   org-id-locations-file (concat +org-dir ".org-ids-locations")
-   org-use-property-inheritance t
-
-   org-log-done 'time
-   org-log-redeadline 'time
-   org-log-reschedule 'time
-   org-log-into-drawer "LOGBOOK"
-
-   org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA"
-   org-drawers (quote ("PROPERTIES" "LOGBOOK"))
-
-   org-clock-auto-clock-resolution (quote when-no-clock-is-running)
-   org-clock-report-include-clocking-task t
-   org-clock-out-remove-zero-time-clocks t
-   org-clock-persist-query-resume nil
-   org-clock-history-length 23
-   org-clock-out-when-done t
-   org-clock-into-drawer t
-   org-clock-in-resume t
-   org-clock-persist t
-
-   evil-org-key-theme '(textobjects insert navigation additional shift heading)
-
-   )
-
-
-  ;; hooks
-  (add-hook 'org-after-todo-state-change-hook 'org-save-all-org-buffers)
-  (add-hook 'org-agenda-after-show-hook 'org-narrow-to-subtree)
-  (add-hook 'org-mode-hook #'visual-line-mode)
-  ;; (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-  (remove-hook 'org-agenda-finalize-hook '+org|cleanup-agenda-files)
-  (remove-hook 'org-mode-hook #'auto-fill-mode)
-
-
-  ;; faces
-  (add-hook 'doom-load-theme-hook #'aj/my-org-faces)
-  (add-hook! :append 'org-mode-hook #'aj/my-org-faces)
-
-  ;; advices
-  (advice-add 'org-archive-subtree :after #'org-save-all-org-buffers)
-  (advice-add 'org-archive-subtree-default :after #'org-save-all-org-buffers)
-  (advice-add 'org-agenda-archive :after #'org-save-all-org-buffers)
-  (advice-add 'org-agenda-archive-default :after #'org-save-all-org-buffers)
-  (advice-add 'org-agenda-exit :before 'org-save-all-org-buffers)
-  (advice-add 'org-refile :after (lambda (&rest _) (org-save-all-org-buffers)))
-  (advice-add 'org-agenda-switch-to :after 'turn-off-solaire-mode)
-  (advice-add 'org-clock-in :around (lambda (&rest _) (org-save-all-org-buffers)))
-  (advice-add 'org-clock-out :around (lambda (&rest _) (org-save-all-org-buffers)))
-
-  ;; popups
-  (set-popup-rule! "^\\*org-brain\\*$"    :size 0.3 :side 'left :vslot -2 :select t :quit nil :transient t)
-  (set-popup-rule! "^CAPTURE.*\\.org$"    :size 0.4 :side 'bottom :select t)
-  (set-popup-rule! "GTD.org"              :size 0.32 :side 'right :vslot -1  :select t :transient nil)
-  (set-popup-rule! "README.org"           :size 0.4 :side 'left :select t :transient nil)
-  ;; (set-popup-rule! "work-wiki.org"        :size 0.4 :side 'left :select t :transient nil)
-  ;; (set-popup-rule! "build-wiki.org"       :size 0.4 :side 'left :select t :transient nil)
-  ;; (set-popup-rule! "private-wiki.org"     :size 0.4 :side 'left :select t :transient nil)
-  ;; (set-popup-rule! "environment-wiki.org" :size 0.4 :side 'left :select t :transient nil)
-  ;; (set-popup-rule! "education-wiki.org"   :size 0.4 :side 'left :select t :transient nil)
-  (set-popup-rule! "^\\*Org Src"          :size 0.4 :side 'right :quit t :select t)
-  (set-popup-rule! "^\\*Org Agenda.*\\*$" :size 0.32 :side 'right :slot -1 :select t :modeline nil :quit t)
-  (set-popup-rule! "JOURNAL.org"          :size 0.4 :side 'top :select t :transient nil)
-  (set-popup-rule! "SOMEDAY.org"          :size 0.4 :side 'right :select t :transient nil)
-  (set-popup-rule! "MAYBE.org"            :size 0.4 :side 'right :select t :transient nil)
-  (set-popup-rule! "BOOKMARKS.org"        :size 0.4 :side 'top :select t :transient nil)
-
-  )
-(after! ob-core
-  (setq
-   org-babel-default-header-args '((:session . "none")
-                                   (:results . "replace")
-                                   (:exports . "code")
-                                   (:cache . "no")
-                                   (:noweb . "no")
-                                   (:hlines . "no")
-                                   (:tangle . "no")
-                                   (:mkdir . "yes"))
-   )
-  )
-
-;; packages
-(def-package! org-brain
-  :after org
-  :init
-  (set-evil-initial-state! 'org-brain-visualize-mode 'emacs)
-  :config
-  (setq org-brain-visualize-default-choices 'all
-        org-brain-title-max-length 12 )
-  :commands
-  (org-brain-visualize
-   org-brain-goto-end
-   org-brain-visualize
-   org-brain-add-parent
-   org-brain-add-child
-   org-brain-add-friendship
-   org-brain-add-relationship
-   org-brain-add-resource
-   org-brain-goto-parent
-   org-brain-goto-child
-   org-brain-goto-friend
-   org-brain-goto-current
-   org-brain-goto-end
-   org-brain-goto-other-window
-   org-brain-remove-child
-   org-brain-remove-friendship
-   org-brain-remove-parent
-   ))
-(def-package! org-pdfview
-  :commands (org-pdfview-open org-pdfview-store-link org-pdfview-complete-link org-pdfview-export)
-  )
-
-(def-package! org-pomodoro
-  :after org
-  :commands (org-pomodoro org-pomodoro-remaining-seconds org-pomodoro-state)
-  :config
-  (setq alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil)))
-        org-pomodoro-ask-upon-killing nil
-        )
-  )
-(def-package! org-projectile
-  :after org
-  :commands (org-projectile-todo-files org-projectile-capture-for-current-project)
-  :init (setq org-projectile-per-project-filepath "README.org"
-              org-projectile-capture-template (format "%s%s" "* TODO %?" :clock-in t)
-              ;; org-agenda-files (append (list
-              ;;                           ""
-              ;;                           ))
-              )
-  :config (org-projectile-per-project)
-  )
+;;  ;; hooks
+;;  (add-hook 'org-after-todo-state-change-hook 'org-save-all-org-buffers)
+;;  (add-hook 'org-agenda-after-show-hook 'org-narrow-to-subtree)
+;;  (add-hook 'org-mode-hook #'visual-line-mode)
+;;  ;; (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+;;  (remove-hook 'org-agenda-finalize-hook '+org|cleanup-agenda-files)
+;;  (remove-hook 'org-mode-hook #'auto-fill-mode)
+;;
+;;
+;;  ;; faces
+;;  (add-hook 'doom-load-theme-hook #'aj/my-org-faces)
+;;  (add-hook! :append 'org-mode-hook #'aj/my-org-faces)
+;;
+;;  ;; advices
+;;  (advice-add 'org-archive-subtree :after #'org-save-all-org-buffers)
+;;  (advice-add 'org-archive-subtree-default :after #'org-save-all-org-buffers)
+;;  (advice-add 'org-agenda-archive :after #'org-save-all-org-buffers)
+;;  (advice-add 'org-agenda-archive-default :after #'org-save-all-org-buffers)
+;;  (advice-add 'org-agenda-exit :before 'org-save-all-org-buffers)
+;;  (advice-add 'org-refile :after (lambda (&rest _) (org-save-all-org-buffers)))
+;;  (advice-add 'org-agenda-switch-to :after 'turn-off-solaire-mode)
+;;  (advice-add 'org-clock-in :around (lambda (&rest _) (org-save-all-org-buffers)))
+;;  (advice-add 'org-clock-out :around (lambda (&rest _) (org-save-all-org-buffers)))
+;;
+;;  ;; popups
+;;  (set-popup-rule! "^\\*org-brain\\*$"    :size 0.3 :side 'left :vslot -2 :select t :quit nil :transient t)
+;;  (set-popup-rule! "^CAPTURE.*\\.org$"    :size 0.4 :side 'bottom :select t)
+;;  (set-popup-rule! "GTD.org"              :size 0.32 :side 'right :vslot -1  :select t :transient nil)
+;;  (set-popup-rule! "README.org"           :size 0.4 :side 'left :select t :transient nil)
+;;  ;; (set-popup-rule! "work-wiki.org"        :size 0.4 :side 'left :select t :transient nil)
+;;  ;; (set-popup-rule! "build-wiki.org"       :size 0.4 :side 'left :select t :transient nil)
+;;  ;; (set-popup-rule! "private-wiki.org"     :size 0.4 :side 'left :select t :transient nil)
+;;  ;; (set-popup-rule! "environment-wiki.org" :size 0.4 :side 'left :select t :transient nil)
+;;  ;; (set-popup-rule! "education-wiki.org"   :size 0.4 :side 'left :select t :transient nil)
+;;  (set-popup-rule! "^\\*Org Src"          :size 0.4 :side 'right :quit t :select t)
+;;  (set-popup-rule! "^\\*Org Agenda.*\\*$" :size 0.32 :side 'right :slot -1 :select t :modeline nil :quit t)
+;;  (set-popup-rule! "JOURNAL.org"          :size 0.4 :side 'top :select t :transient nil)
+;;  (set-popup-rule! "SOMEDAY.org"          :size 0.4 :side 'right :select t :transient nil)
+;;  (set-popup-rule! "MAYBE.org"            :size 0.4 :side 'right :select t :transient nil)
+;;  (set-popup-rule! "BOOKMARKS.org"        :size 0.4 :side 'top :select t :transient nil)
+;;
+;;  )
+;;(after! ob-core
+;;  (setq
+;;   org-babel-default-header-args '((:session . "none")
+;;                                   (:results . "replace")
+;;                                   (:exports . "code")
+;;                                   (:cache . "no")
+;;                                   (:noweb . "no")
+;;                                   (:hlines . "no")
+;;                                   (:tangle . "no")
+;;                                   (:mkdir . "yes"))
+;;   )
+;;  )
+;;
+;;;; packages
+;;(def-package! org-brain
+;;  :after org
+;;  :init
+;;  (set-evil-initial-state! 'org-brain-visualize-mode 'emacs)
+;;  :config
+;;  (setq org-brain-visualize-default-choices 'all
+;;        org-brain-title-max-length 12 )
+;;  :commands
+;;  (org-brain-visualize
+;;   org-brain-goto-end
+;;   org-brain-visualize
+;;   org-brain-add-parent
+;;   org-brain-add-child
+;;   org-brain-add-friendship
+;;   org-brain-add-relationship
+;;   org-brain-add-resource
+;;   org-brain-goto-parent
+;;   org-brain-goto-child
+;;   org-brain-goto-friend
+;;   org-brain-goto-current
+;;   org-brain-goto-end
+;;   org-brain-goto-other-window
+;;   org-brain-remove-child
+;;   org-brain-remove-friendship
+;;   org-brain-remove-parent
+;;   ))
+;;(def-package! org-pdfview
+;;  :commands (org-pdfview-open org-pdfview-store-link org-pdfview-complete-link org-pdfview-export)
+;;  )
+;;
+;;(def-package! org-pomodoro
+;;  :after org
+;;  :commands (org-pomodoro org-pomodoro-remaining-seconds org-pomodoro-state)
+;;  :config
+;;  (setq alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil)))
+;;        org-pomodoro-ask-upon-killing nil
+;;        )
+;;  )
+;; (def-package! org-projectile
+;;   :after org
+;;   :commands (org-projectile-todo-files org-projectile-capture-for-current-project)
+;;   :init (setq org-projectile-per-project-filepath "README.org"
+;;               org-projectile-capture-template (format "%s%s" "* TODO %?" :clock-in t)
+;;               ;; org-agenda-files (append (list
+;;               ;;                           ""
+;;               ;;                           ))
+;;               )
+;;   :config (org-projectile-per-project)
+;;   )
 
 ;; (def-package! ereader
 ;;   :mode ("\\.epub\\'". ereader-mode)
