@@ -74,7 +74,7 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 #+END_SRC
 *** Modeline
 #+BEGIN_SRC emacs-lisp
-(setq +doom-modeline-buffer-file-name-style 'relative-from-project)
+(setq +doom-modeline-buffer-file-name-style 'truncate-upto-root)
 #+END_SRC
 *** Minibuffer
 #+BEGIN_SRC emacs-lisp
