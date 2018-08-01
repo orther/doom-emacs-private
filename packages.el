@@ -8,7 +8,7 @@
 (package! js-doc)
 (package! orgit)
 
-(package! magit-todos)
+;; (package! magit-todos)
 
 ;; (package! fish-mode)
 ;; (package! find-file-in-project)

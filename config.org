@@ -69,8 +69,10 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 *** Fonts
 #+BEGIN_SRC emacs-lisp
 (setq ns-use-thin-smoothing t)
-(setq doom-font (font-spec :family "Fira Mono" :size 14)
-      doom-big-font (font-spec :family "Fira Mono" :size 22))
+(setq doom-font (font-spec :family "Roboto Mono for Powerline" :size 12)
+      doom-big-font (font-spec :family "Roboto Mono for Powerline" :size 18))
+;; Dash highlighting
+(after! dash (dash-enable-font-lock))
 #+END_SRC
 *** Modeline
 #+BEGIN_SRC emacs-lisp
@@ -111,23 +113,24 @@ Use coreutils gls (not default osx ls) to prevent "ls does not support --dired;"
 #+END_SRC
 * Keybindings
 #+BEGIN_SRC emacs-lisp
-;; (map!
-;;  (:leader
-;;    (:prefix "o"
-;;      :desc "Agenda" :n "a" #'org-agenda
-;;      :desc "eShell" :n "e" #'+eshell/open-popup
-;;      :desc "i.org" :n "o" #'emiller/visit-i-org
-;;      :desc "APP: Email" :n "m" #'=mail)
-;;    (:prefix "p"
-;;      :desc "Counsel-ag" :n "f" #'counsel-ag)
-;;    (:prefix "g"
-;;      :desc "Git Status" :n "g" #'magit-status
-;;      :desc "List gists" :n "l" #'+gist:list)
-;;    (:prefix "n"
-;;      :desc "Org-noter" :n "o" #'org-noter)
-;;    (:prefix "p"
-;;      :desc "Org-pomodoro" :n "s" #'org-pomodoro)
-;;   :desc "New workspace" :n "N" (lambda! () (+workspace/new (read-string "Enter workspace name: ")))))
+(map!
+ (:leader
+   ;; (:prefix "o"
+   ;;   :desc "Agenda" :n "a" #'org-agenda
+   ;;   :desc "eShell" :n "e" #'+eshell/open-popup
+   ;;   :desc "i.org" :n "o" #'emiller/visit-i-org
+   ;;   :desc "APP: Email" :n "m" #'=mail)
+   (:prefix "p"
+     :desc "Counsel-ag" :n "f" #'counsel-ag
+     :desc "Seach in project file" :n "i" #'+ivy/project-search)
+   ;; (:prefix "g"
+   ;;   :desc "Git Status" :n "g" #'magit-status
+   ;;   :desc "List gists" :n "l" #'+gist:list)
+   ;; (:prefix "n"
+   ;;   :desc "Org-noter" :n "o" #'org-noter)
+   ;; (:prefix "p"
+   ;;   :desc "Org-pomodoro" :n "s" #'org-pomodoro)
+  :desc "New workspace" :n "N" (lambda! () (+workspace/new (read-string "Enter workspace name: ")))))
 #+END_SRC
 * Functions
 Edit i.org
@@ -1160,7 +1163,8 @@ Inherit major mode from latest active buffer
 (after! magithub
   (setq magithub-clone-default-directory "~/work/code/"))
 
-(def-package! magit-todos)
+(setq magit-gitflow-popup-key "C-n")
+;; (def-package! magit-todos)
 #+END_SRC
 * Languages
 ** JavaScript
@@ -1206,8 +1210,8 @@ Inherit major mode from latest active buffer
                    :select nil
                    :quit nil
                    :ttl t))
-
 * Org Mode
+Killed for now
 #+BEGIN_SRC emacs-lisp
 ;; (setq
 ;; +org-dir (expand-file-name "~/Dropbox/org-files/")
@@ -1639,4 +1643,13 @@ Inherit major mode from latest active buffer
 # #+BEGIN_SRC emacs-lisp
 # (setq wakatime-api-key "ef95a313-1eb0-4b87-b170-875f27ac9d25")
 # #+END_SRC
+
+* Cheatsheet
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add-group 'Window 
+                      '(:key "SPC w <" :description "Decrease window width")
+                      '(:key "SPC w >" :description "Increase window width")
+                      )
+#+END_SRC
+
 
