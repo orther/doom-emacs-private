@@ -20,3 +20,5 @@
 (package! ob-async :recipe (:fetcher github :repo "astahlman/ob-async" ))
 (package! link-hint)
 (package! plain-org-wiki :recipe (:fetcher github :repo "abo-abo/plain-org-wiki"))
+
+(package! prettier-js)
