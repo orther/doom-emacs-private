@@ -137,6 +137,42 @@ Add personal snippets to yasnippet
          js-doc-url "uptrend.tech"
          js-doc-license "MIT License"))
 #+END_SRC
+*** TypeScript
+Show eslint warnings in TypeScript files by using both checkers: lsp-ui, javascript-eslint
+#+BEGIN_SRC emacs-lisp
+(after! typescript-mode
+  (add-hook 'typescript-mode-hook #'flycheck-mode)
+  (setq typescript-indent-level 2))
+
+(setq js-indent-level 2
+      js2-basic-offset 2)
+
+(setq +set-eslint-checker nil)
+(after! lsp-ui
+  ;; for whatever reason, this was running twice.
+  (setq lsp-ui-sideline-show-hover t)
+  (when (not +set-eslint-checker)
+    (progn
+      (setq +set-eslint-checker t)
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+      (flycheck-add-next-checker 'lsp-ui  'javascript-eslint)))
+      (when (not flycheck-javascript-eslint-executable)
+        (setq flycheck-javascript-eslint-executable "eslint_d")))
+
+(setq company-idle-delay 0.1)
+
+(after! web-mode
+  (add-hook 'web-mode-hook #'flycheck-mode)
+
+  (setq web-mode-markup-indent-offset 2 ;; Indentation
+        web-mode-code-indent-offset 2
+        web-mode-enable-auto-quoting nil ;; disbale adding "" after an =
+        web-mode-auto-close-style 2))
+
+(after! web-mode
+  (remove-hook 'web-mode-hook #'+javascript-init-lsp-or-tide-maybe-h)
+  (add-hook 'web-mode-local-vars-hook #'+javascript-init-lsp-or-tide-maybe-h))
+#+END_SRC
 *** Tide
 #+BEGIN_SRC emacs-lisp
 ;; (after! tide
@@ -145,10 +181,10 @@ Add personal snippets to yasnippet
 #+END_SRC
 *** Prettier
 #+BEGIN_SRC emacs-lisp
-(eval-after-load 'web-mode
-    '(progn
-       (add-hook 'web-mode-hook #'add-node-modules-path)
-       (add-hook 'web-mode-hook #'prettier-js-mode)))
+;; (eval-after-load 'web-mode
+;;     '(progn
+;;        (add-hook 'web-mode-hook #'add-node-modules-path)
+;;        (add-hook 'web-mode-hook #'prettier-js-mode)))
 #+END_SRC
 
 *** Flycheck Jest
@@ -173,6 +209,7 @@ Add personal snippets to yasnippet
                    :select nil
                    :quit nil
                    :ttl t))
+#+END_SRC
 * Apps
 ** Write
 *** langtool

@@ -69,7 +69,7 @@
        :tools
        ;;ansible
        ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
+       direnv
        docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
@@ -79,7 +79,7 @@
        gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
-       ;;lsp
+       lsp
        macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
@@ -112,7 +112,8 @@
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
-       javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       (javascript        ; all(hope(abandon(ye(who(enter(here))))))
+        +lsp)
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
@@ -179,3 +180,20 @@
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
        ;; (default +bindings +snippets +evil-commands))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mouse-wheel-progressive-speed nil)
+ '(mouse-wheel-scroll-amount '(1 ((shift) . 5) ((control))))
+ '(wakatime-api-key "6710bc90-8e5f-4052-89d0-eb9f82ad38cd")
+ ;; '(wakatime-cli-path "/usr/local/Cellar/wakatime-cli/8.0.3/libexec/bin/wakatime")
+ '(wakatime-cli-path "/usr/local/bin/wakatime")
+ '(wakatime-python-bin nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
